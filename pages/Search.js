@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TextInput, StyleSheet} from 'react-native';
 import Header from '../components/Header';
 
 export default function Search() {
