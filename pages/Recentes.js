@@ -11,3 +11,11 @@ export default function Recentes() {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        width: '100%',
+    },
+});
