@@ -10,13 +10,14 @@ const Drawer = createDrawerNavigator();
 
 export default function DrawerRoutes() {
     return (
-    <Drawer.Navigator>
+    <Drawer.Navigator
     screenOptions={{
         drawerActiveTintColor: 'red',
         drawerInactiveTintColor: 'gray',
         drawerStyle: { backgroundColor: '#fff', width: 250 },
         headerShown: true,
-    }}
+        }}
+    >
     <Drawer.Screen name="Home" component={TabRoutes} />
     <Drawer.Screen name="Recentes" component={Recentes} />
     <Drawer.Screen name="Casos Criminais" component={CasosCriminais} />
