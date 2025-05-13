@@ -75,4 +75,3 @@ const styles = StyleSheet.create({
         marginRight: 30,
     },
 });
-
