@@ -19,6 +19,7 @@ export default function DrawerRoutes() {
         }}
     >
     <Drawer.Screen name="Home" component={TabRoutes} />
+
     <Drawer.Screen name="Recentes" component={Recentes} />
     <Drawer.Screen name="Casos Criminais" component={CasosCriminais} />
     <Drawer.Screen name="Podcast" component={Podcast} />

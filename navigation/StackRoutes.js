@@ -6,7 +6,7 @@ const Stack = createStackNavigator();
 
 export default function StackRoutes() {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator screenOptions={{ headerShown: true }}>
             <Stack.Screen name="Recentes" component={DrawerRoutes} />
             <Stack.Screen name="Casos Criminais" component={DrawerRoutes} />
             <Stack.Screen name="Podcast" component={DrawerRoutes} />
