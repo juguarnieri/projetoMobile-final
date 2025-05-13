@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import Card1 from '../components/Card1';
+import Card2 from '../components/Card2';
 
 
 export default function Home() {
@@ -48,6 +49,12 @@ export default function Home() {
             </View>
 
             <View style={styles.line} />
+
+            <Card2 
+                imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSB8MMZ9D3VG2nqNdlJ9yMn111v2HxVUekNZg&s" 
+                title="Caso Menina Vitória" 
+            />
+
         </ScrollView>
     );
 };
