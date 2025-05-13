@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet} from 'react-native';
+import { useNavigation } from '@react-navigation/native';   
 import Header from '../components/Header';
 
 export default function Search() {
@@ -7,7 +8,11 @@ export default function Search() {
     return (
         <View style={styles.container}>
             <Header />
-            <Text>Tela Search</Text>
+            <Text style={styles.title}>Tela Search</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Pesquisar..."
+            />
         </View>
     );
 }
@@ -15,7 +20,19 @@ export default function Search() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        width: '100%',
+        padding:16,
+        backgroundColor: '#fff',
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    input: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 8,
     },
 });
