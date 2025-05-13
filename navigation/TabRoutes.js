@@ -22,7 +22,7 @@ export default function TabRoutes() {
                 borderTopWidth: 0.5,
                 height: 60,
             },
-            headerShown: false, // Oculta o header de cada tab
+            headerShown: true, 
         }}
     >
             <Tab.Screen 
