@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';   
 import Header from '../components/Header';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+
 
 export default function Search() {
     const navigation = useNavigation();
@@ -10,14 +10,16 @@ export default function Search() {
       <View style={styles.container}>
             <Header />
 
-            <View style={styles.textNoticia}>
-                <Text style={styles.titleNoticia}>CASOS CRIMINAIS</Text>
-            </View>
+            <Text style={styles.sectionTitle}>EXPLORAR</Text>
+
+            <View style={styles.searchContainer}>
             <TextInput
-                style={styles.input}
+                style={styles.searchInput}
                 placeholder="Pesquisar Notícias..."
+                placeholderTextColor= "#888"
             />
             </View>
+        </View>
     
     );
 };
@@ -25,25 +27,37 @@ export default function Search() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        width: '100%',
+        backgroundColor: '#f2f2f2',
+        
     },
-    titleNoticia: {
+    sectionTitle: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#000000',
-        textAlign: 'left',
-        marginTop: 10,
-        marginLeft: 30,
+        color: '#000',
+        marginTop: 20,
+        marginLeft: 16,
     },
-    input: {
+    searchContainer: {
+        backgroundColor: "#ffffff",
+        marginHorizontal: 16,
+        marginTop:16,
+        borderRadius: 10,
+        padding: 8,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+    },
+    searchInput: {
         height: 40,
         borderColor: '#ccc',
         borderWidth: 1,
-        borderRadius: 5,
-        paddingHorizontal: 8,
-        margin: 16,
-        backgroundColor: '#acacac',
-        color: '#5a5a5a',
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        backgroundColor: '#f9f9f9',
+        color: '#333',
     },
 });
