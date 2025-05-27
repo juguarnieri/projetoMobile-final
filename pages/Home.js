@@ -1,16 +1,49 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import Header from '../components/Header';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import Card1 from '../components/Card1';
 import Card2 from '../components/Card2';
+import axios from 'axios';
 
 
 export default function Home() {
+    const [news, setNews] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const API_KEY = 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z';
+
+    useEffect(() => {
+        fetchNews();
+    }, []);
+
+    const fetchNews = async () => {
+        try {
+            const response = await axios.get('http://10.88.200.188:4000/api/news', {
+                headers: {
+                    'x-api-key': API_KEY,
+                }
+            })
+            setNews(response.data.data);
+            console.log("Notícias recebidas:", response.data);
+        } catch (error) {
+            console.error("Error ao buscar notícias:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <View style={styles.loading}>
+            <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+    }
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container}>   
             <Header titleWhite="CRIME" titleRed="WHISPERS" />
 
             <View style={styles.buttons}>
@@ -30,22 +63,19 @@ export default function Home() {
 
             <View style={styles.line} />
 
-            <View style={styles.textPodcasts}>
-                <Text style={styles.titlePodcasts}>Top Podcasts</Text>
-            </View>
-
-            <Card1 
-                imageUri="https://i.ytimg.com/vi/T_7CA8tdL1I/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAXmIE8tixIOIJmcsOpnTmvtTBMXQ" 
-                title="Caso Maníaco do Parque" 
-            />
-
-            <Card1 
-                imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSB8MMZ9D3VG2nqNdlJ9yMn111v2HxVUekNZg&s" 
-                title="Caso Menina Vitória" 
-            />
+        
+            {Array.isArray(news) && news.map((item, index) => (
+                <React.Fragment key={index}>
+                    <Card1 
+                        imageUri={item.image}
+                        title={item.title}
+                    />
+                    <View style={styles.line} />
+                </React.Fragment>
+            ))}
 
             <View style={styles.textCasos}>
-                <Text style={styles.titleCasos}>Casos Famosos</Text>
+                <Text style={styles.titleCasos}>Top Podcasts</Text>
             </View>
 
             <View style={styles.line} />
@@ -54,6 +84,22 @@ export default function Home() {
                 imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSB8MMZ9D3VG2nqNdlJ9yMn111v2HxVUekNZg&s" 
                 title="Caso Menina Vitória"
                 description="Um caso que chocou o Brasil, envolvendo a tragédia de uma jovem menina."
+            />
+
+            <View style={styles.line} />
+
+            <Card2 
+                imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7643S7p7XrvbF4BosLNpaUfEXcs_DvF5XJg&s"
+                title="Caso trapezista argentina"
+                description="Florencia Aranguren foi brutalmente assassinada a facadas em Búzios, RJ."
+            />
+
+            <View style={styles.line} />
+
+            <Card2 
+                imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7643S7p7XrvbF4BosLNpaUfEXcs_DvF5XJg&s"
+                title="Caso trapezista argentina"
+                description="Florencia Aranguren foi brutalmente assassinada a facadas em Búzios, RJ."
             />
 
         </ScrollView>

@@ -11,8 +11,8 @@ export default function Card2({ imageUri, title, description }) {
                         />
                         <View>
                             <Text style={styles.title}>{title}</Text>
+                            <Text style={styles.description}>{description}</Text>
                         </View>
-                        <Text style={styles.description}>{description}</Text>
                     </View>
                 </View>
     );
@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
         color: 'gray',
         fontSize: 14,
         marginTop: 5,
-        marginLeft: 10,
+        marginLeft: 2,
     },
 });
