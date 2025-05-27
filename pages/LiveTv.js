@@ -1,17 +1,47 @@
 import React from 'react';
-import {Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Header from '../components/Header';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView, ScrollView } from 'react-native-web';
+import axios from 'axios';
+import VideosSection from '../components/VideosSection';
+import Category from '../components/Category';
 
 export default function LiveTv() {
-    const navigation = useNavigation();
+    const [videos, setVideos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
+        fetch('http:// 10.88.200.181/api/videos', {
+            headers: {
+                'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            setVideos(data.data || []);
+            setLoading(false);
+        })
+    .catch(err => {
+        console.error('Erro ao buscar vídeos:', err);
+        setVideos([]);
+        setLoading(false);
+    });
+    }, []);
+
     return (
         <ScrollView>
         <SafeAreaView style={styles.container}>
             <Header />
             <Text style={styles.title}>VÍDEOS</Text>
             <TouchableOpacity style={styles.input}>Pesquisar Vídeos</TouchableOpacity>
+
+            <Category />
+
+            <Image source={require('../assets/img/livetv.png')} style={styles.image} />
+            
+            <VideosSection videos={videos} />
+            
         </SafeAreaView>
         </ScrollView>
     );
