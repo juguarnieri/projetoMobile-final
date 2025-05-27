@@ -1,15 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Header from '../components/Header';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import Card1 from '../components/Card1';
+import Card2 from '../components/Card2';
 
 
 export default function Home() {
-    const navigation = useNavigation();
+
     return (
-        <View style={styles.container}>
-            <Header />
+        <ScrollView style={styles.container}>
+            <Header titleWhite="CRIME" titleRed="WHISPERS" />
 
             <View style={styles.buttons}>
                 
@@ -25,11 +27,35 @@ export default function Home() {
             <View style={styles.textNoticia}>
                 <Text style={styles.titleNoticia}>Notícias do dia</Text>
             </View>
+
             <View style={styles.line} />
-            <View style={styles.textNoticia}>
-                <Text style={styles.titleNoticia}>Top Podcasts</Text>
+
+            <View style={styles.textPodcasts}>
+                <Text style={styles.titlePodcasts}>Top Podcasts</Text>
             </View>
-        </View>
+
+            <Card1 
+                imageUri="https://i.ytimg.com/vi/T_7CA8tdL1I/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAXmIE8tixIOIJmcsOpnTmvtTBMXQ" 
+                title="Caso Maníaco do Parque" 
+            />
+
+            <Card1 
+                imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSB8MMZ9D3VG2nqNdlJ9yMn111v2HxVUekNZg&s" 
+                title="Caso Menina Vitória" 
+            />
+
+            <View style={styles.textCasos}>
+                <Text style={styles.titleCasos}>Casos Famosos</Text>
+            </View>
+
+            <View style={styles.line} />
+
+            <Card2 
+                imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSB8MMZ9D3VG2nqNdlJ9yMn111v2HxVUekNZg&s" 
+                title="Caso Menina Vitória" 
+            />
+
+        </ScrollView>
     );
 };
 
@@ -77,4 +103,18 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30,
     },
+    titleCasos: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#000000',
+        textAlign: 'left',
+        marginLeft: 30,
+    },
+    titlePodcasts: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#000000',
+        textAlign: 'left',
+        marginLeft: 30,
+    }
 });
