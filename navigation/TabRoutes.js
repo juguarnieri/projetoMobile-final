@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../pages/Home";
-import Search from "../pages/Search";
+import Search from "../pages/Recentes";
 import LiveTv from "../pages/LiveTv";
 import Account from "../pages/Account";
 import FontAwesome from '@expo/vector-icons/FontAwesome';

@@ -1,18 +1,15 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, Image } from 'react-native';
 import Header from '../components/Header';
 import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView, ScrollView } from 'react-native-web';
-import axios from 'axios';
-import VideosSection from '../components/VideosSection';
 import Category from '../components/Category';
 
 export default function LiveTv() {
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
-    
+
     useEffect(() => {
-        fetch('http:// 10.88.200.181/api/videos', {
+        fetch('http://10.88.200.181/api/videos', {
             headers: {
                 'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z'
             }
@@ -22,27 +19,23 @@ export default function LiveTv() {
             setVideos(data.data || []);
             setLoading(false);
         })
-    .catch(err => {
-        console.error('Erro ao buscar vídeos:', err);
-        setVideos([]);
-        setLoading(false);
-    });
+        .catch(err => {
+            console.error('Erro ao buscar vídeos:', err);
+            setVideos([]);
+            setLoading(false);
+        });
     }, []);
 
     return (
         <ScrollView>
-        <SafeAreaView style={styles.container}>
-            <Header />
-            <Text style={styles.title}>VÍDEOS</Text>
-            <TouchableOpacity style={styles.input}>Pesquisar Vídeos</TouchableOpacity>
-
-            <Category />
-
-            <Image source={require('../assets/img/livetv.png')} style={styles.image} />
-            
-            <VideosSection videos={videos} />
-            
-        </SafeAreaView>
+            <SafeAreaView style={styles.container}>
+                <Header />
+                <Text style={styles.title}>VÍDEOS</Text>
+                <TouchableOpacity style={styles.input}>Pesquisar Vídeos</TouchableOpacity>
+                <Category />
+        
+                <VideosSection videos={videos} />
+            </SafeAreaView>
         </ScrollView>
     );
 }
@@ -69,5 +62,11 @@ const styles = StyleSheet.create({
         margin: 16,
         backgroundColor: '#acacac',
         color: '#5a5a5a',
+    },
+    image: {
+        width: '100%',
+        height: 200,
+        resizeMode: 'contain',
+        marginVertical: 16,
     }
 });

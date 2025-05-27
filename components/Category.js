@@ -11,9 +11,9 @@ export default function Category() {
                     RECENTES
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setSelecionado('CASOS ANTIGOS')}>
-                <Text style={[styles.texto, selecionado === 'CASOS ANTIGOS' && styles.selecionado]}>
-                    CASOS ANTIGOS
+            <TouchableOpacity onPress={() => setSelecionado('CASOS CRIMINAIS')}>
+                <Text style={[styles.texto, selecionado === 'CASOS CRIMINAIS' && styles.selecionado]}>
+                    CASOS CRIMINAIS
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setSelecionado('PODCASTS')}>

@@ -9,7 +9,7 @@ export default function Search() {
     const [loading, setLoading] = useState(true);
 
 useEffect(() => {
-    fetch('http://10.88.200.168:4000/api/news', {
+    fetch('http://192.168.5.193:4000/api/news', {
         headers: {
             'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z'
         }
