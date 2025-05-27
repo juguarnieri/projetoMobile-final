@@ -16,13 +16,15 @@ export default function TabRoutes() {
         <Tab.Navigator        
             screenOptions={{
             tabBarActiveTintColor: 'red',  // cor quando ativa
-            tabBarInactiveTintColor: 'gray', // cor quando inativa
+            tabBarInactiveTintColor: 'white', // cor quando inativa
             tabBarStyle: {
-                backgroundColor: '#fff',
+                backgroundColor: '#000339',
                 borderTopWidth: 0.5,
-                height: 60,
+                paddingBottom: 10,
+                paddingTop: 10,
+                height: 70,
             },
-            headerShown: true, 
+            headerShown: false,
         }}
     >
             <Tab.Screen 
