@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function Header() {
+export default function Header({ titleWhite, titleRed }) {
     return (
         <View style={styles.header}>
             <Text style={styles.title}>
-                <Text style={styles.titleWhite}>CRIME </Text>
-                <Text style={styles.titleRed}>WHISPERS</Text>
+                <Text style={styles.titleWhite}>{titleWhite} </Text>
+                <Text style={styles.titleRed}>{titleRed}</Text>
             </Text>
         </View>
     );
@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 16,
         textAlign: 'center',
-        justifyContent: 'center'
-},
+        justifyContent: 'center',
+    },
     menuButton: {
         marginRight: 12,
     },
