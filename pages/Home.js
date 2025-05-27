@@ -52,7 +52,8 @@ export default function Home() {
 
             <Card2 
                 imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSB8MMZ9D3VG2nqNdlJ9yMn111v2HxVUekNZg&s" 
-                title="Caso Menina Vitória" 
+                title="Caso Menina Vitória"
+                description="Um caso que chocou o Brasil, envolvendo a tragédia de uma jovem menina."
             />
 
         </ScrollView>
