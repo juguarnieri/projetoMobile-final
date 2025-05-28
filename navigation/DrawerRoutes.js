@@ -1,7 +1,7 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import TabRoutes from "./TabRoutes";
-import Recentes from "../pages/Recentes";
+import Recentes from "../pages/Search";
 import CasosCriminais from "../pages/CasosCriminais";
 import Podcast from "../pages/Podcast";
 import Quiz from "../pages/Quiz";

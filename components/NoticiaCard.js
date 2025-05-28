@@ -1,29 +1,33 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { TouchableOpacity, Image, Text, StyleSheet, View } from 'react-native';
 
-export default function NoticiaCard({ titulo, imagem }) {
+export default function NoticiaCard({ titulo, imagem, onPress, style }) {
     return (
-        <View style={styles.card}>
-            <Image source={{ uri: imagem }} style={styles.imagem } />
-            <Text style={styles.titulo}>{titulo}</Text>
-        </View>
+        <TouchableOpacity style={[styles.card, style]} onPress={onPress}>
+            <Image source={{ uri: imagem }} style={styles.image} />
+            <Text style={styles.title} numberOfLines={2}>{titulo}</Text>
+        </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     card: {
-        width: '48%',
-        marginBottom: 12,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        marginBottom: 16,
+        overflow: 'hidden',
+        elevation: 2,
     },
-    imagem: {
+    image: {
         width: '100%',
-        height: 90,
-        borderRadius: 6,
+        height: 120,
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
     },
-    titulo: {
-        marginTop: 5,
-        fontSize: 12,
-        color: '#000',
+    title: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#222',
+        padding: 8,
     },
-    
-})
+});

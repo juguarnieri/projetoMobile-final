@@ -9,7 +9,7 @@ export default function LiveTv() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://10.88.200.181/api/videos', {
+        fetch('http://192.168.5.193/api/videos', {
             headers: {
                 'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z'
             }
