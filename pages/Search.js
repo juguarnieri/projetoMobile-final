@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, ActivityIndicator, FlatList } from 'react-native';
-import Header from '../components/Header';
-import Category from '../components/Category';
+import Banner from '../components/Banner';
 import NoticiaCard from '../components/NoticiaCard';
+import PodcastCard from '../components/PodcastCard';
+import VideoCard from '../components/VideoCard';
+
 
 const BASE_URL = 'http://192.168.5.193:4000';
 
@@ -14,30 +16,38 @@ function getImageUrl(imagem) {
 
 export default function Search() {
     const [noticias, setNoticias] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [podcasts, setPodcasts] = useState([]);
+    const [videos, setVideos] = useState([]);
+    const [loadingNoticias, setLoadingNoticias] = useState(true);
+    const [loadingPodcasts, setLoadingPodcasts] = useState(true);
+    const [loadingVideos, setLoadingVideos] = useState(true);
 
     useEffect(() => {
-        fetch('http://192.168.5.193:4000/api/news', {
-            headers: {
-                'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z'
-            }
+        fetch(`${BASE_URL}/api/news/featured`, {
+            headers: { 'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z' }
         })
         .then(res => res.json())
-        .then(data => {
-            setNoticias(data.data || data || []); 
-            setLoading(false);
-        })
-        .catch(err => {
-            setNoticias([]); 
-            setLoading(false);
-        });
-    }, []);
+        .then(data => setNoticias(data.data || data || []))
+        .finally(() => setLoadingNoticias(false));
 
-    const noticiasImportantes = noticias.filter(noticia => noticia.is_featured);
+        fetch(`${BASE_URL}/api/podcasts/featured`, {
+            headers: { 'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z' }
+        })
+        .then(res => res.json())
+        .then(data => setPodcasts(data.data || data || []))
+        .finally(() => setLoadingPodcasts(false));
+
+        fetch(`${BASE_URL}/api/videos/featured`, {
+            headers: { 'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z' }
+        })
+        .then(res => res.json())
+        .then(data => setVideos(data.data || data || []))
+        .finally(() => setLoadingVideos(false));
+    }, []);
 
     return (
         <ScrollView style={styles.container}>
-            <Header titleWhite="CRIME" titleRed="WHISPERS" />
+            <Banner image={require("../assets/img/banner3.png")} />
 
             <Text style={styles.sectionTitle}>EXPLORAR</Text>
 
@@ -48,15 +58,12 @@ export default function Search() {
                     placeholderTextColor="#888"
                 />
             </View>
-
-            <Category />
-
-            <Text style={styles.sectionTitle}>NOTÍCIAS IMPORTANTES</Text>
-            {loading ? (
+            <Text style={styles.sectionTitle}>NOTÍCIAS EM DESTAQUE</Text>
+            {loadingNoticias ? (
                 <ActivityIndicator size="large" color="#900" style={{ marginTop: 32 }} />
             ) : (
                 <FlatList
-                    data={noticiasImportantes}
+                    data={noticias.slice(0, 10)}
                     numColumns={2}
                     keyExtractor={item => item.id.toString()}
                     renderItem={({ item }) => (
@@ -70,9 +77,50 @@ export default function Search() {
                     contentContainerStyle={{ paddingHorizontal: 8 }}
                 />
             )}
+
+            <Text style={styles.sectionTitle}>PODCASTS FAMOSOS</Text>
+            {loadingPodcasts ? (
+                <ActivityIndicator size="large" color="#900" style={{ marginTop: 32 }} />
+            ) : (
+                <FlatList
+                    data={podcasts.slice(0, 10)}
+                    numColumns={2}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <View style={{ flex: 1, margin: 8 }}>
+                            <PodcastCard
+                                titulo={item.title}
+                                imagem={getImageUrl(item.image)}
+                            />
+                        </View>
+                    )}
+                    contentContainerStyle={{ paddingHorizontal: 8 }}
+                />
+            )}
+
+            <Text style={styles.sectionTitle}>VÍDEOS IMPORTANTES</Text>
+            {loadingVideos ? (
+                <ActivityIndicator size="large" color="#900" style={{ marginTop: 32 }} />
+            ) : (
+                <FlatList
+                    data={videos.slice(0, 10)}
+                    numColumns={2}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <View style={{ flex: 1, margin: 8 }}>
+                            <VideoCard
+                                titulo={item.title}
+                                imagem={getImageUrl(item.image)}
+                            />
+                        </View>
+                    )}
+                    contentContainerStyle={{ paddingHorizontal: 8 }}
+                />
+            )}
         </ScrollView>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -82,7 +130,7 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#000',
+        color: '#000339',
         marginTop: 20,
         marginLeft: 16,
     },
@@ -105,35 +153,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: '#f9f9f9',
         color: '#333',
-    },
-    destaqueContainer: {
-        marginHorizontal: 16,
-        marginTop: 16,
-        position: 'relative',
-    },
-    destaqueImagem: {
-        width: '100%',
-        height: 200,
-        borderRadius: 8,
-    },
-    destaqueTitulo: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        padding: 10,
-        color: '#fff',
-        fontWeight: 'bold',
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        borderBottomLeftRadius: 8,
-        borderBottomRightRadius: 8,
-        fontSize: 14,
-    },
-    cardContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        marginHorizontal: 16,
-        marginTop: 16,
-    },
-});
+    }
+});   

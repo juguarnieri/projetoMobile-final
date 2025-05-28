@@ -2,8 +2,8 @@ import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../pages/Home";
 import Search from "../pages/Search";
-import LiveTv from "../pages/LiveTv";
-import Account from "../pages/Account";
+import LiveTv from "../pages/Feed";
+import Account from "../pages/Users";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -15,8 +15,8 @@ export default function TabRoutes() {
     return (
         <Tab.Navigator        
             screenOptions={{
-            tabBarActiveTintColor: 'red',  // cor quando ativa
-            tabBarInactiveTintColor: 'white', // cor quando inativa
+            tabBarActiveTintColor: 'red', 
+            tabBarInactiveTintColor: 'white', 
             tabBarStyle: {
                 backgroundColor: '#000339',
                 borderTopWidth: 0.5,
@@ -47,7 +47,7 @@ export default function TabRoutes() {
             }} 
         />
               <Tab.Screen 
-            name="LiveTv" 
+            name="Feed" 
             component={LiveTv}
             options={{
                 tabBarIcon: ({ color, size}) => (
@@ -56,7 +56,7 @@ export default function TabRoutes() {
             }} 
         />
               <Tab.Screen 
-            name="Account" 
+            name="Users" 
             component={Account}
             options={{
                 tabBarIcon: ({ color, size}) => (

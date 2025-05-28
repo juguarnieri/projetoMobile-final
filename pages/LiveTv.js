@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, Image } from 'react-native';
 import Header from '../components/Header';
-import { useNavigation } from '@react-navigation/native';
 import Category from '../components/Category';
 
 export default function LiveTv() {
