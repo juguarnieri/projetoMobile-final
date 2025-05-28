@@ -1,7 +1,7 @@
 import React from 'react';
-import { TouchableOpacity, Image, Text, StyleSheet, View } from 'react-native';
+import { TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
 
-export default function NoticiaCard({ titulo, imagem, onPress, style }) {
+export default function VideoCard({ titulo, imagem, onPress, style }) {
     return (
         <TouchableOpacity style={[styles.card, style]} onPress={onPress}>
             <Image source={{ uri: imagem }} style={styles.image} />
