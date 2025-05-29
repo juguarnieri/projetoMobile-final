@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, ScrollView, ActivityIndicator, TextInput, Alert } from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image, ScrollView, ActivityIndicator, TextInput, Linking } from 'react-native';
 import Card3 from '../components/Card3';
 import bannerImage from '../assets/img/podcast.jpg';
 import axios from 'axios';
@@ -51,14 +51,14 @@ export default function Podcasts() {
 
   return (
     <ScrollView style={styles.container}>
-    <View style={styles.bannerContainer}>
-      <Image source={bannerImage} style={styles.banner} resizeMode="cover" />
-      <View style={styles.overlay}>
-         <Text style={styles.bannerTitle}>
-      {search ? 'RESULTADOS DA BUSCA' : 'TOP PODCASTS'}
-    </Text>
-  </View>
-</View>
+      <View style={styles.bannerContainer}>
+        <Image source={bannerImage} style={styles.banner} resizeMode="cover" />
+        <View style={styles.overlay}>
+          <Text style={styles.bannerTitle}>
+            {search ? 'RESULTADOS DA BUSCA' : 'PODCASTS'}
+          </Text>
+        </View>
+      </View>
 
       <View style={styles.searchContainer}>
         <TextInput
@@ -91,7 +91,11 @@ export default function Podcasts() {
                 <Card3
                   imageUri={item.image || item.thumbnail}
                   title={item.title}
-                  onPress={() => Alert.alert('Podcast selecionado', item.title)}
+                  onPress={() => {
+                    if (item.link) {
+                      Linking.openURL(item.link);
+                    }
+                  }}
                 />
               )}
             />
@@ -117,25 +121,27 @@ const styles = StyleSheet.create({
     height: 150,
     position: 'relative',
     marginBottom: 10,
-  },  
+  },
   banner: {
     width: '100%',
     height: '100%',
     borderRadius: 0,
   },
+  overlay: {
+    position: 'absolute',
+    left: 10,
+    bottom: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 5,
+  },
   bannerTitle: {
     color: '#fff',
-    fontSize: 26,
+    fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'center',
     textTransform: 'uppercase',
     letterSpacing: 1,
-  },
-  titleCasos: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
-    backgroundColor: 'transparent',
   },
   podcastList: {
     paddingLeft: 15,
@@ -172,17 +178,4 @@ const styles = StyleSheet.create({
     color: '#888',
     marginTop: 10,
   },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', 
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  
-  
 });
-
