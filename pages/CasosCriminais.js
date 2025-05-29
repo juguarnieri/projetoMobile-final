@@ -1,22 +1,99 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Header from '../components/Header';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Card1 from '../components/Card1';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import CardCasos from '../components/CardsCasos';
+import TabRoutes from '../navigation/TabRoutes';
 
 export default function CasosCriminais() {
     const navigation = useNavigation();
     return (
-        <View style={styles.container}>
-            <Header />
-            <Text>Tela Casos Criminais</Text>
+        <View style={{ flex: 1 }}>
+        <ScrollView style={styles.container}>
+            <View style={styles.buttons}>
+                <View style={styles.block}>
+                    <Text style={styles.title}>CW</Text>
+                </View>
+                <TouchableOpacity style={styles.gearButton}>
+                    <FontAwesome name="gear" size={24} color="black" />
+                </TouchableOpacity>
+            </View>
+
+            <Card1
+                imageUri="https://i.ytimg.com/vi/jCKE4N1KIbs/maxresdefault.jpg"
+            />
+
+            <View style={styles.cardDecade}>
+            <CardCasos 
+                imageUri="https://c.files.bbci.co.uk/2DAB/production/_103219611_gettyimages-587828692.jpg"
+                title="Década de 70"
+            />
+            <CardCasos 
+                imageUri="https://www.cartacapital.com.br/wp-content/uploads/2019/03/araceli-ana-lidia.jpg"
+                title="Década de 80"
+            />
+            </View>
+
+            <View style={styles.cardDecade}>
+            <CardCasos 
+                imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpKE1Dy75eJfKBxCuLb2a7Hy6Rd84f6-0exA&s"
+                title="Década de 90"
+            />
+            <CardCasos 
+                imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXF3EmpIb8bqVQSE7mFCi3kBq7L3fiGSOFdg9oWktQqWw_YMEDtQ_UbcMTKrt_QblBKlE&usqp=CAU"
+                title="Década de 2000"
+            />
+            </View>
+
+            <View style={styles.cardDecade}>
+            <CardCasos 
+                imageUri="https://filmindica.com/wp-content/uploads/2023/06/series-sobre-casos-criminais-reais-1-1.webp"
+                title="Década de 2010"
+            />
+            <CardCasos 
+                imageUri="https://ichef.bbci.co.uk/news/1024/branded_portuguese/a7e0/live/42ca1540-f62b-11ed-87cd-1142cf567558.jpg"
+                title="Década de 2020"
+            />
+            </View>
+        </ScrollView>
+
+        <TabRoutes />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: 'column',
         width: '100%',
+    },
+    block: {
+        backgroundColor: 'red',
+        width: 30,
+        height: 30,
+        marginLeft: 20,
+    },
+    title: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#FFFFFF',
+        textAlign: 'center',
+        marginTop: 5,
+    },
+    buttons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
+        alignItems: 'center',
+    },
+    gearButton: {
+        marginRight: 20,
+    },
+    cardDecade: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        paddingHorizontal: 2,
     },
 });
