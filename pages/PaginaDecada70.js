@@ -1,10 +1,118 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import CardNoticia from '../components/CardNoticia';
 
 export default function PaginaDecada70() {
+  const [noticias, setNoticias] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('http://10.88.201.136:4000/api/news?decade=70')
+      .then(res => res.json())
+      .then(data => {
+        setNoticias(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color="#900" />
+      </View>
+    );
+  }
+
   return (
-    <View>
-      <Text>Página Década de 70</Text>
+    <View style={{ flex: 1, backgroundColor: '#222' }}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>CASOS CRIMINAIS</Text>
+      </View>
+      <FlatList
+        ListHeaderComponent={
+          noticias.length > 0 && (
+            <View style={styles.topCard}>
+              <Image
+                source={{ uri: noticias[0]?.image }}
+                style={styles.topImage}
+                resizeMode="cover"
+              />
+              <View style={styles.topOverlay}>
+                <Text style={styles.topDecade}>DÉCADA 1970</Text>
+                <View style={styles.learnMoreBtn}>
+                  <Text style={styles.learnMoreText}>LEARN MORE</Text>
+                </View>
+              </View>
+            </View>
+          )
+        }
+        data={noticias.slice(1)}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({ item }) => (
+          <CardNoticia
+            image={item.image}
+            title={item.title}
+            description={item.description}
+            onPress={() => {}}
+          />
+        )}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#222' },
+  header: {
+    backgroundColor: '#fff',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc'
+  },
+  headerTitle: {
+    color: '#222',
+    fontWeight: 'bold',
+    fontSize: 18,
+    textAlign: 'left'
+  },
+  topCard: {
+    margin: 10,
+    borderRadius: 10,
+    overflow: 'hidden',
+    position: 'relative'
+  },
+  topImage: {
+    width: '100%',
+    height: 120,
+  },
+  topOverlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  topDecade: {
+    color: '#fff',
+    fontSize: 22,
+    fontWeight: 'bold',
+    letterSpacing: 2
+  },
+  learnMoreBtn: {
+    backgroundColor: '#d32f2f',
+    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    marginLeft: 10
+  },
+  learnMoreText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 13
+  }
+});
