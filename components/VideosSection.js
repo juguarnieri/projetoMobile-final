@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 
-export default function VideosSection({ videos }) {
+export default function VideosSection({ videos, renderVideo }) {
   if (!videos || videos.length === 0) {
     return (
       <View style={styles.emptyContainer}>
@@ -16,20 +16,20 @@ export default function VideosSection({ videos }) {
       keyExtractor={(item) => item.id?.toString() || Math.random().toString()}
       renderItem={({ item }) => (
         <View style={styles.card}>
-          {item.thumbnail && (
-            <Image source={{ uri: item.thumbnail }} style={styles.thumbnail} />
-          )}
-          <Text style={styles.title}>{item.title}</Text>
+          {renderVideo(item)}
         </View>
       )}
-      contentContainerStyle={styles.list}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.carrousel}
     />
   );
 }
 
 const styles = StyleSheet.create({
-  list: {
-    padding: 10,
+  carrousel: {
+    paddingHorizontal: 8,
+    paddingVertical: 8,
   },
   card: {
     backgroundColor: '#fff',
