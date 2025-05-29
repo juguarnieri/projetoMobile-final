@@ -92,7 +92,7 @@ export default function LiveTv() {
             </View>
             {Object.entries(videosByCategory).map(([category, videos]) => (
                 <View key={category} style>
-                    <Text style={styles.sectionTitle}>{category}</Text>
+                    <Text style={styles.CardTitle}>{category}</Text>
                     <VideosSection
                         videos={videos}
                         loading={loading}
@@ -130,12 +130,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     sectionTitle: {
-        fontSize: 18,
+        color: '#fff',
+        fontSize: 20,
         fontWeight: 'bold',
-        color: '#000339',
-        marginTop: 20,
-        marginLeft: 16,
         textTransform: 'uppercase',
+        letterSpacing: 1,
     },
     searchContainer: {
         backgroundColor: "#ffffff",
@@ -156,5 +155,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: '#f9f9f9',
         color: '#333',
+    },
+    CardTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#000339',
+        marginTop: 20,
+        marginLeft: 16,
+        textTransform: 'uppercase',
     },
 });

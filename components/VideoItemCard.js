@@ -12,8 +12,8 @@ export default function VideoItemCard({ titulo, imagem, onPress, style }) {
 
 const styles = StyleSheet.create({
     card: {
-        width: 180,
-        height: 210,
+        width: 190,
+        height: 180,
         backgroundColor: '#fff',
         borderRadius: 8,
         marginBottom: 16,
@@ -21,13 +21,13 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     image: {
-        width: 200,
-        height: 110,
+        width: '100%',
+        height: 140,
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
     },
     title: {
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: 'bold',
         color: '#222',
         padding: 8,
