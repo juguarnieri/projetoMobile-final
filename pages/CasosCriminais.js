@@ -25,36 +25,48 @@ export default function CasosCriminais() {
             />
 
             <View style={styles.cardDecade}>
+                <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada70')}>
             <CardCasos 
                 imageUri="https://c.files.bbci.co.uk/2DAB/production/_103219611_gettyimages-587828692.jpg"
                 title="Década de 70"
             />
+            </TouchableOpacity>
+             <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada80')}>
             <CardCasos 
                 imageUri="https://www.cartacapital.com.br/wp-content/uploads/2019/03/araceli-ana-lidia.jpg"
                 title="Década de 80"
             />
+            </TouchableOpacity>
             </View>
 
             <View style={styles.cardDecade}>
+                 <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada90')}>
             <CardCasos 
                 imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpKE1Dy75eJfKBxCuLb2a7Hy6Rd84f6-0exA&s"
                 title="Década de 90"
             />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada2000')}>
             <CardCasos 
                 imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXF3EmpIb8bqVQSE7mFCi3kBq7L3fiGSOFdg9oWktQqWw_YMEDtQ_UbcMTKrt_QblBKlE&usqp=CAU"
                 title="Década de 2000"
             />
+            </TouchableOpacity>
             </View>
 
             <View style={styles.cardDecade}>
+                <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada2010')}>
             <CardCasos 
                 imageUri="https://filmindica.com/wp-content/uploads/2023/06/series-sobre-casos-criminais-reais-1-1.webp"
                 title="Década de 2010"
             />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada2020')}>
             <CardCasos 
                 imageUri="https://ichef.bbci.co.uk/news/1024/branded_portuguese/a7e0/live/42ca1540-f62b-11ed-87cd-1142cf567558.jpg"
                 title="Década de 2020"
             />
+            </TouchableOpacity>
             </View>
         </ScrollView>
 
@@ -94,6 +106,9 @@ const styles = StyleSheet.create({
     cardDecade: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        paddingHorizontal: 2,
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        marginVertical: 10,
+        gap: 10,
     },
 });
