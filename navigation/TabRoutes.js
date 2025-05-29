@@ -1,6 +1,5 @@
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Home from "../pages/Home";
 import Search from "../pages/Search";
 import LiveTv from "../pages/Feed";
 import Account from "../pages/Users";
@@ -27,15 +26,6 @@ export default function TabRoutes() {
             headerShown: false,
         }}
     >
-            <Tab.Screen 
-            name="Home" 
-            component={Home}
-            options={{
-                tabBarIcon: ({ color , size}) => (
-                    <FontAwesome name="home" size={size} color={color} />
-                ),
-            }} 
-        />
               <Tab.Screen 
             name="Search"
             component={Search}

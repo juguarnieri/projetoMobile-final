@@ -2,7 +2,6 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Text } from "react-native";
 import TabRoutes from "./TabRoutes";
-import Recentes from "../pages/Search";
 import CasosCriminais from "../pages/CasosCriminais";
 import LiveTv from "../pages/LiveTv";
 import Podcast from "../pages/Podcasts";
@@ -34,7 +33,6 @@ export default function DrawerRoutes() {
       }}
     >
       <Drawer.Screen name="Home" component={TabRoutes} />
-      <Drawer.Screen name="Recentes" component={Recentes} />
       <Drawer.Screen name="Casos Criminais" component={CasosCriminais} />
       <Drawer.Screen name="Videos" component={LiveTv} />
       <Drawer.Screen name="Podcast" component={Podcast} />
