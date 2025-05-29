@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
-import Header from '../components/Header';
 import { useNavigation } from '@react-navigation/native';
 import VideosSection from '../components/VideosSection';
-import VideoCard from '../components/VideoCard';
+import VideoItemCard from '../components/VideoItemCard';
 import Banner from '../components/Banner';
+
 
 export default function LiveTv() {
     const navigation = useNavigation();
@@ -13,7 +13,7 @@ export default function LiveTv() {
     const [search, setSearch] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [current, setCurrent] = useState(1);
-    const [pageSize] = useState(27);
+    const [pageSize] = useState(30);
 
     const fetchVideos = async () => {
         setLoading(true);
@@ -50,10 +50,11 @@ export default function LiveTv() {
         return filteredData.slice((current - 1) * pageSize, current * pageSize);
     }, [filteredData, current, pageSize]);
 
-    const renderVideo = ({ item }) => (
-        <VideoCard
-            item={item}
-            onPress={() => navigation.navigate("Video", { video: item })}
+    const renderVideo = (video) => (
+        <VideoItemCard
+            titulo={video.title}
+            imagem={video.image}
+            onPress={() => navigation.navigate('Video', { video })}
         />
     );
 
@@ -70,8 +71,7 @@ export default function LiveTv() {
 
     return (
         <ScrollView style={styles.container}>
-            <Header />
-            <Banner image={require("../assets/img/livetv.png")} />
+            <Banner image={require("../assets/img/bannerlivetv.png")} />
 
             <Text style={styles.sectionTitle}>VÍDEOS</Text>
             <View style={styles.searchContainer}>
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
         color: '#000339',
         marginTop: 20,
         marginLeft: 16,
+        textTransform: 'uppercase',
     },
     searchContainer: {
         backgroundColor: "#ffffff",
