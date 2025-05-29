@@ -6,13 +6,21 @@ import PodcastCard from '../components/PodcastCard';
 import VideoCard from '../components/VideoCard';
 
 
-const BASE_URL = 'http://192.168.5.193:4000';
+const BASE_URL = 'http://10.88.201.143:4000';
 
 function getImageUrl(imagem) {
     if (!imagem) return null;
     if (imagem.startsWith('http')) return imagem;
     return `${BASE_URL}${imagem}`;
 }
+
+function filtrarItens(itens, busca) {
+    if (!busca) return itens;
+    return itens.filter(item =>
+        item.title && item.title.toLowerCase().includes(busca.toLowerCase())
+    );
+}
+
 
 export default function Search() {
     const [noticias, setNoticias] = useState([]);
@@ -21,6 +29,7 @@ export default function Search() {
     const [loadingNoticias, setLoadingNoticias] = useState(true);
     const [loadingPodcasts, setLoadingPodcasts] = useState(true);
     const [loadingVideos, setLoadingVideos] = useState(true);
+    const [search, setSearch] = useState(""); 
 
     useEffect(() => {
         fetch(`${BASE_URL}/api/news/featured`, {
@@ -45,78 +54,71 @@ export default function Search() {
         .finally(() => setLoadingVideos(false));
     }, []);
 
-    return (
-        <ScrollView style={styles.container}>
-            <Banner image={require("../assets/img/banner3.png")} />
+    
+return (
+    <ScrollView style={styles.container}>
+        <Banner image={require("../assets/img/banner3.png")} />
 
-            <Text style={styles.sectionTitle}>EXPLORAR</Text>
+        <Text style={styles.sectionTitle}>EXPLORAR</Text>
 
-            <View style={styles.searchContainer}>
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Pesquisar Notícias..."
-                    placeholderTextColor="#888"
-                />
-            </View>
-            <Text style={styles.sectionTitle}>NOTÍCIAS EM DESTAQUE</Text>
-            {loadingNoticias ? (
-                <ActivityIndicator size="large" color="#900" style={{ marginTop: 32 }} />
-            ) : (
-                <FlatList
-                    data={noticias.slice(0, 10)}
-                    numColumns={2}
-                    keyExtractor={item => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <View style={{ flex: 1, margin: 8 }}>
-                            <NoticiaCard
-                                titulo={item.title}
-                                imagem={getImageUrl(item.image)}
-                            />
-                        </View>
-                    )}
-                    contentContainerStyle={{ paddingHorizontal: 8 }}
-                />
+        <View style={styles.searchContainer}>
+            <TextInput
+                style={styles.searchInput}
+                placeholder="Pesquisar Notícias..."
+                placeholderTextColor="#888"
+                value={search}
+                onChangeText={setSearch}
+            />
+        </View>
+
+        <Text style={styles.sectionTitle}>NOTÍCIAS EM DESTAQUE</Text>
+        <FlatList
+            data={filtrarItens(noticias, search).slice(0, 16)}
+            numColumns={2}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({ item }) => (
+                <View style={{ flex: 1, margin: 8 }}>
+                    <NoticiaCard
+                        titulo={item.title}
+                        imagem={getImageUrl(item.image)}
+                    />
+                </View>
             )}
+            contentContainerStyle={{ paddingHorizontal: 8 }}
+        />
 
-            <Text style={styles.sectionTitle}>PODCASTS FAMOSOS</Text>
-            {loadingPodcasts ? (
-                <ActivityIndicator size="large" color="#900" style={{ marginTop: 32 }} />
-            ) : (
-                <FlatList
-                    data={podcasts.slice(0, 10)}
-                    numColumns={2}
-                    keyExtractor={item => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <View style={{ flex: 1, margin: 8 }}>
-                            <PodcastCard
-                                titulo={item.title}
-                                imagem={getImageUrl(item.image)}
-                            />
-                        </View>
-                    )}
-                    contentContainerStyle={{ paddingHorizontal: 8 }}
-                />
+        <Text style={styles.sectionTitle}>PODCASTS MAIS OUVIDOS</Text>
+        <FlatList
+            data={filtrarItens(podcasts, search).slice(0, 10)}
+            numColumns={2}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({ item }) => (
+                <View style={{ flex: 1, margin: 8 }}>
+                    <PodcastCard
+                        titulo={item.title}
+                        imagem={getImageUrl(item.image)}
+                    />
+                </View>
             )}
+            contentContainerStyle={{ paddingHorizontal: 8 }}
+        />
 
-            <Text style={styles.sectionTitle}>VÍDEOS IMPORTANTES</Text>
-            {loadingVideos ? (
-                <ActivityIndicator size="large" color="#900" style={{ marginTop: 32 }} />
-            ) : (
-                <FlatList
-                    data={videos.slice(0, 10)}
-                    numColumns={2}
-                    keyExtractor={item => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <View style={{ flex: 1, margin: 8 }}>
-                            <VideoCard
-                                titulo={item.title}
-                                imagem={getImageUrl(item.image)}
-                            />
-                        </View>
-                    )}
-                    contentContainerStyle={{ paddingHorizontal: 8 }}
-                />
+        <Text style={styles.sectionTitle}>VÍDEOS EM ALTA</Text>
+        <FlatList
+            data={filtrarItens(videos, search).slice(0, 10)}
+            numColumns={2}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({ item }) => (
+                <View style={{ flex: 1, margin: 8 }}>
+                    <VideoCard
+                        titulo={item.title}
+                        imagem={getImageUrl(item.image)}
+                    />
+                </View>
             )}
+            contentContainerStyle={{ paddingHorizontal: 8 }}
+        />
+
         </ScrollView>
     );
 }
