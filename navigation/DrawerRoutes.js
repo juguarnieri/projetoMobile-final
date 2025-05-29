@@ -4,6 +4,7 @@ import { Text } from "react-native";
 import TabRoutes from "./TabRoutes";
 import Recentes from "../pages/Search";
 import CasosCriminais from "../pages/CasosCriminais";
+import LiveTv from "../pages/LiveTv";
 import Podcast from "../pages/Podcasts";
 import Quiz from "../pages/Quiz";
 
@@ -35,6 +36,7 @@ export default function DrawerRoutes() {
       <Drawer.Screen name="Home" component={TabRoutes} />
       <Drawer.Screen name="Recentes" component={Recentes} />
       <Drawer.Screen name="Casos Criminais" component={CasosCriminais} />
+      <Drawer.Screen name="Videos" component={LiveTv} />
       <Drawer.Screen name="Podcast" component={Podcast} />
       <Drawer.Screen name="Quiz" component={Quiz} />
     </Drawer.Navigator>
