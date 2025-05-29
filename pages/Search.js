@@ -73,7 +73,7 @@ return (
 
         <Text style={styles.sectionTitle}>NOTÍCIAS EM DESTAQUE</Text>
         <FlatList
-            data={filtrarItens(noticias, search).slice(0, 8)}
+            data={filtrarItens(noticias, search).slice(0, 16)}
             numColumns={2}
             keyExtractor={item => item.id.toString()}
             renderItem={({ item }) => (
