@@ -1,16 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
-
-export default function Card3({ imageUri, title }) {
+export default function Card3({ imageUri, title, onPress }) {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
       <Image source={{ uri: imageUri }} style={styles.image} />
       <Text style={styles.title}>{title}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
