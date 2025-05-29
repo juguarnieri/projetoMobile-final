@@ -4,7 +4,7 @@ import Banner from '../components/Banner';
 import NoticiaCard from '../components/NoticiaCard';
 import PodcastCard from '../components/PodcastCard';
 import VideoCard from '../components/VideoCard';
-
+import PodcastImageCard from '../components/PodcastImageCard';
 
 const BASE_URL = 'http://10.88.201.143:4000';
 
@@ -21,6 +21,13 @@ function filtrarItens(itens, busca) {
     );
 }
 
+function agruparEmPares(lista) {
+    const pares = [];
+    for (let i = 0; i < lista.length; i += 2) {
+        pares.push([lista[i], lista[i + 1]]);
+    }
+    return pares;
+}
 
 export default function Search() {
     const [noticias, setNoticias] = useState([]);
@@ -88,15 +95,39 @@ return (
         />
 
         <Text style={styles.sectionTitle}>PODCASTS MAIS OUVIDOS</Text>
+
+        {/* Primeira linha */}
         <FlatList
-            data={filtrarItens(podcasts, search).slice(0, 10)}
-            numColumns={2}
+            data={filtrarItens(podcasts, search).filter((_, idx) => idx % 2 === 0)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id.toString()}
             renderItem={({ item }) => (
-                <View style={{ flex: 1, margin: 8 }}>
-                    <PodcastCard
-                        titulo={item.title}
-                        imagem={getImageUrl(item.image)}
+                <View style={{ width: 250, margin: 8 }}>
+                    <PodcastImageCard
+                        image={getImageUrl(item.image)}
+                        title={item.title}
+                        buttonText="Ouvir agora"
+                        onPress={() => alert(`Ouvir podcast: ${item.title}`)}
+                    />
+                </View>
+            )}
+            contentContainerStyle={{ paddingHorizontal: 8 }}
+        />
+
+        {/* Segunda linha */}
+        <FlatList
+            data={filtrarItens(podcasts, search).filter((_, idx) => idx % 2 === 1)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({ item }) => (
+                <View style={{ width: 250, margin: 8 }}>
+                    <PodcastImageCard
+                        image={getImageUrl(item.image)}
+                        title={item.title}
+                        buttonText="Ouvir agora"
+                        onPress={() => alert(`Ouvir podcast: ${item.title}`)}
                     />
                 </View>
             )}
@@ -153,7 +184,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 10,
-        backgroundColor: '#f9f9f9',
         color: '#333',
-    }
-});   
+        backgroundColor: '#f9f9f9',
+    },
+});
