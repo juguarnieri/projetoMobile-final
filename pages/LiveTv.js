@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import VideosSection from '../components/VideosSection';
 import VideoItemCard from '../components/VideoItemCard';
 import Banner from '../components/Banner';
-
 
 export default function LiveTv() {
     const navigation = useNavigation();
@@ -50,14 +49,19 @@ export default function LiveTv() {
         return filteredData.slice((current - 1) * pageSize, current * pageSize);
     }, [filteredData, current, pageSize]);
 
+    const handleCardPress = async (video) => {
+        if (video.link) {
+            Linking.openURL(video.link);
+        }
+    };
+    
     const renderVideo = (video) => (
         <VideoItemCard
-            titulo={video.title}
-            imagem={video.image}
-            onPress={() => navigation.navigate('Video', { video })}
-        />
+        titulo={video.title}
+        imagem={video.image}
+        onPress={() => handleCardPress(video)}
+    />
     );
-
     const videosByCategory = useMemo(() => {
         return paginated.reduce((acc, video) => {
             const category = video.category?.toLowerCase();
@@ -71,9 +75,13 @@ export default function LiveTv() {
 
     return (
         <ScrollView style={styles.container}>
-            <Banner image={require("../assets/img/bannerlivetv.png")} />
+            <View style={styles.bannerContainer}>
 
+            <Banner image={require("../assets/img/bannerlivetv.png")} styles={styles.banner} />
+            <View style={styles.overlay}>
             <Text style={styles.sectionTitle}>VÍDEOS</Text>
+            </View>
+            </View>
             <View style={styles.searchContainer}>
                 <TextInput
                     style={styles.searchInput}
@@ -83,7 +91,7 @@ export default function LiveTv() {
                 />
             </View>
             {Object.entries(videosByCategory).map(([category, videos]) => (
-                <View key={category}>
+                <View key={category} style>
                     <Text style={styles.sectionTitle}>{category}</Text>
                     <VideosSection
                         videos={videos}
@@ -100,6 +108,26 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+    },
+    bannerContainer: {
+        width: '100%',
+        height: 150,
+        position: 'relative',
+        marginBottom: 10,
+    },
+    banner: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 0,
+    },
+    overlay: {
+        position: 'absolute',
+        left: 10,
+        bottom: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 5,
     },
     sectionTitle: {
         fontSize: 18,
@@ -128,5 +156,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: '#f9f9f9',
         color: '#333',
-    }
+    },
 });
