@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, ActivityIndicator, FlatList } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, FlatList } from 'react-native';
 import Banner from '../components/Banner';
 import NoticiaCard from '../components/NoticiaCard';
-import PodcastCard from '../components/PodcastCard';
 import VideoCard from '../components/VideoCard';
 import PodcastImageCard from '../components/PodcastImageCard';
 
-const BASE_URL = 'http://10.88.201.143:4000';
+const BASE_URL = 'http://localhost:4000';
 
 function getImageUrl(imagem) {
     if (!imagem) return null;
@@ -21,13 +20,6 @@ function filtrarItens(itens, busca) {
     );
 }
 
-function agruparEmPares(lista) {
-    const pares = [];
-    for (let i = 0; i < lista.length; i += 2) {
-        pares.push([lista[i], lista[i + 1]]);
-    }
-    return pares;
-}
 
 export default function Search() {
     const [noticias, setNoticias] = useState([]);
