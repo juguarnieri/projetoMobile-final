@@ -1,10 +1,15 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
+const BASE_URL = 'http://localhost:4000'; 
+
 export default function CardNoticia({ image, title, description, onPress }) {
+
+  const imageUrl = image?.startsWith('http') ? image : `${BASE_URL}/uploads/${image}`;
+
   return (
     <View style={styles.card}>
-      <Image source={{ uri: image }} style={styles.cardImage} />
+      <Image source={{ uri: imageUrl }} style={styles.cardImage} />
       <View style={styles.cardContent}>
         <Text style={styles.cardTitle}>{title}</Text>
         <Text style={styles.cardDesc} numberOfLines={2}>{description}</Text>
@@ -27,8 +32,8 @@ const styles = StyleSheet.create({
     elevation: 2
   },
   cardImage: {
-    width: 90,
-    height: 90,
+    width: '30%',
+    height: '100%',
   },
   cardContent: {
     flex: 1,
