@@ -2,18 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import CardNoticia from '../components/CardNoticia';
 
+const BASE_URL = 'http://localhost:4000'; 
+
 export default function PaginaDecada70() {
   const [noticias, setNoticias] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://10.88.201.136:4000/api/news?decade=70')
+    fetch(`${BASE_URL}/api/news?decade=70`, {
+      headers: { 'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z' }
+    })
       .then(res => res.json())
       .then(data => {
-        setNoticias(data);
+        setNoticias(data.data || data || []);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        console.log('Erro ao buscar notícias:', err);
+        setLoading(false);
+      });
   }, []);
 
   if (loading) {
