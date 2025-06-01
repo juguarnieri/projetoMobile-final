@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, FlatList, Linking } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Banner from '../components/Banner';
-import NoticiaCard from '../components/NoticiaCard';
+import NoticiaImageCard from '../components/NoticiaImageCard';
 import VideoCard from '../components/VideoCard';
 import PodcastImageCard from '../components/PodcastImageCard';
 
-const BASE_URL = 'http://localhost:4000';
+const BASE_URL = 'http://192.168.5.192:4000';
 
 function getImageUrl(imagem) {
     if (!imagem) return null;
@@ -22,13 +23,15 @@ function filtrarItens(itens, busca) {
 
 
 export default function Search() {
+    const navigation = useNavigation();
     const [noticias, setNoticias] = useState([]);
     const [podcasts, setPodcasts] = useState([]);
     const [videos, setVideos] = useState([]);
+    const [search, setSearch] = useState(""); 
+
     const [loadingNoticias, setLoadingNoticias] = useState(true);
     const [loadingPodcasts, setLoadingPodcasts] = useState(true);
     const [loadingVideos, setLoadingVideos] = useState(true);
-    const [search, setSearch] = useState(""); 
 
     useEffect(() => {
         fetch(`${BASE_URL}/api/news/featured`, {
@@ -72,23 +75,43 @@ return (
 
         <Text style={styles.sectionTitle}>NOTÍCIAS EM DESTAQUE</Text>
         <FlatList
-            data={filtrarItens(noticias, search).slice(0, 16)}
-            numColumns={2}
+            data={filtrarItens(noticias, search).filter((_, idx) => idx % 2 === 1)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id.toString()}
             renderItem={({ item }) => (
-                <View style={{ flex: 1, margin: 8 }}>
-                    <NoticiaCard
-                        titulo={item.title}
-                        imagem={getImageUrl(item.image)}
-                    />
-                </View>
-            )}
+        <View style={{ width: 250, margin: 8 }}>
+            <NoticiaImageCard
+            image={getImageUrl(item.image)}
+            title={item.title}
+            buttonText="Ler notícia"
+            onPress={() => alert(`Ver notícia: ${item.title}`)}
+            />
+        </View>
+        
+        )}
+            contentContainerStyle={{ paddingHorizontal: 8 }}
+        />
+        <FlatList
+            data={filtrarItens(noticias, search).filter((_, idx) => idx % 2 === 0)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({ item }) => (
+        <View style={{ width: 250, margin: 8 }}>
+            <NoticiaImageCard
+            image={getImageUrl(item.image)}
+            title={item.title}
+            buttonText="Ler notícia"
+            onPress={() => alert(`Ver notícia: ${item.title}`)}
+        />
+        </View>
+        )}
             contentContainerStyle={{ paddingHorizontal: 8 }}
         />
 
         <Text style={styles.sectionTitle}>PODCASTS MAIS OUVIDOS</Text>
 
-        {/* Primeira linha */}
         <FlatList
             data={filtrarItens(podcasts, search).filter((_, idx) => idx % 2 === 0)}
             horizontal
@@ -100,14 +123,19 @@ return (
                         image={getImageUrl(item.image)}
                         title={item.title}
                         buttonText="Ouvir agora"
-                        onPress={() => alert(`Ouvir podcast: ${item.title}`)}
+                        onPress={() => {
+                            if (item.link) {
+                                Linking.openURL(item.link);
+                            } else {
+                                alert(`Ver podcast: ${item.title}`);
+                            }
+                        }}
                     />
                 </View>
             )}
             contentContainerStyle={{ paddingHorizontal: 8 }}
         />
 
-        {/* Segunda linha */}
         <FlatList
             data={filtrarItens(podcasts, search).filter((_, idx) => idx % 2 === 1)}
             horizontal
@@ -119,7 +147,13 @@ return (
                         image={getImageUrl(item.image)}
                         title={item.title}
                         buttonText="Ouvir agora"
-                        onPress={() => alert(`Ouvir podcast: ${item.title}`)}
+                        onPress={() => {
+                            if (item.link) {
+                                Linking.openURL(item.link);
+                            } else {
+                                alert(`Ver Podcast: ${item.title}`);
+                            }
+                        }}
                     />
                 </View>
             )}
@@ -136,6 +170,11 @@ return (
                     <VideoCard
                         titulo={item.title}
                         imagem={getImageUrl(item.image)}
+                        onPress={() => {
+                    if (item.link) {
+                        Linking.openURL(item.link);
+                    }
+                }}
                     />
                 </View>
             )}
