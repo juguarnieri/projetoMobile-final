@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet, Linking } from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import VideosSection from '../components/VideosSection';
 import VideoItemCard from '../components/VideoItemCard';
@@ -49,16 +49,16 @@ export default function LiveTv() {
         return filteredData.slice((current - 1) * pageSize, current * pageSize);
     }, [filteredData, current, pageSize]);
 
-    const handleCardPress = async (video) => {
-        if (video.link) {
-            Linking.openURL(video.link);
-        }
+    const handleCardPress = (video) => {
+        setVideoSelected(video);
     };
     
     const renderVideo = (video) => (
         <VideoItemCard
         titulo={video.title}
         imagem={video.image}
+        descricao={video.description}
+        link={video.link}
         onPress={() => handleCardPress(video)}
     />
     );
