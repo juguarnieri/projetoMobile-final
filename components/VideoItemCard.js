@@ -65,9 +65,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     card: {
-        width: 250,
+        width: 270,
         height: 210,
-        backgroundColor: '#f6f6f6',
+        backgroundColor: '#050a30',
         borderRadius: 8,
         marginBottom: 16,
         overflow: 'hidden',
@@ -76,15 +76,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     image: {
-        width: '100%',
-        height: 170,
+        width: '90%',
+        height: 150,
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
     },
     title: {
         fontSize: 15,
         fontWeight: 'bold',
-        color: '#222',
+        color: '#fff',
         padding: 8,
     },
     overlay: {
