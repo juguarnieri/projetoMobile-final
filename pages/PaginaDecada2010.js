@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import CardNoticia from '../components/CardNoticia';
+import { useNavigation } from '@react-navigation/native';
 
-const BASE_URL = 'http://localhost:4000'; 
+const BASE_URL = 'http://localhost:4000';
 
 export default function PaginaDecada2010() {
   const [noticias, setNoticias] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetch(`${BASE_URL}/api/news?decade=anos 2010`, {
@@ -47,9 +49,12 @@ export default function PaginaDecada2010() {
               />
               <View style={styles.topOverlay}>
                 <Text style={styles.topDecade}>DÉCADA 2010</Text>
-                <View style={styles.learnMoreBtn}>
+                <TouchableOpacity
+                  style={styles.learnMoreBtn}
+                  onPress={() => navigation.navigate('NoticiaPage', { id: noticias[0].id })}
+                >
                   <Text style={styles.learnMoreText}>LEARN MORE</Text>
-                </View>
+                </TouchableOpacity>
               </View>
             </View>
           )
@@ -61,7 +66,7 @@ export default function PaginaDecada2010() {
             image={item.image}
             title={item.title}
             description={item.description}
-            onPress={() => {}}
+            id={item.id}
           />
         )}
         contentContainerStyle={{ paddingBottom: 20 }}
@@ -122,5 +127,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 13
   }
-  
+
 });

@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const BASE_URL = 'http://localhost:4000'; 
 
-export default function CardNoticia({ image, title, description, onPress }) {
+export default function CardNoticia({ image, title, description, id }) {
+  const navigation = useNavigation();
 
   const imageUrl = image?.startsWith('http') ? image : `${BASE_URL}/uploads/${image}`;
 
@@ -13,7 +15,7 @@ export default function CardNoticia({ image, title, description, onPress }) {
       <View style={styles.cardContent}>
         <Text style={styles.cardTitle}>{title}</Text>
         <Text style={styles.cardDesc} numberOfLines={2}>{description}</Text>
-        <TouchableOpacity style={styles.learnMoreBtn} onPress={onPress}>
+        <TouchableOpacity style={styles.learnMoreBtn} onPress={() => navigation.navigate('NoticiaPage', { id})}>
           <Text style={styles.learnMoreText}>LEARN MORE</Text>
         </TouchableOpacity>
       </View>

@@ -9,6 +9,7 @@ import PaginaDecada90 from '../pages/PaginaDecada90';
 import PaginaDecada2000 from '../pages/PaginaDecada2000';
 import PaginaDecada2010 from '../pages/PaginaDecada2010';
 import PaginaDecada2020 from '../pages/PaginaDecada2020';
+import NoticiaPage from '../pages/NoticiaPage';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ export default function StackRoutes() {
             <Stack.Screen name="PaginaDecada2000" component={PaginaDecada2000} />
             <Stack.Screen name="PaginaDecada2010" component={PaginaDecada2010} />
             <Stack.Screen name="PaginaDecada2020" component={PaginaDecada2020} />
+            <Stack.Screen name="NoticiaPage" component={NoticiaPage}/>
         </Stack.Navigator>
     );
 }
