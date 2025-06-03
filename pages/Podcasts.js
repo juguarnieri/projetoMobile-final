@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 
 
-function CriminalModal({ visible, onClose, podcast, onToggleFavorite }) {
+function Podcasts({ visible, onClose, podcast, onToggleFavorite }) {
   if (!podcast) return null;
 
  
@@ -247,7 +247,7 @@ export default function Podcasts() {
         );
       })}
 
-      <CriminalModal
+      <Podcasts
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         podcast={selectedPodcast}
