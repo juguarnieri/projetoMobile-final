@@ -1,35 +1,145 @@
-import React from 'react';
-import { TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { TouchableOpacity, Image, Text, StyleSheet, View, Linking, Pressable, Modal } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function VideoItemCard({ titulo, imagem, onPress, style }) {
+export default function VideoItemCard({ titulo, imagem, descricao, link, onPress, style }) {
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleOuvir = () => {
+        if (link) {
+            Linking.openURL(link);
+        }
+    };
+
     return (
-        <TouchableOpacity style={[styles.card, style]} onPress={onPress}>
+        <>
+        <View style={styles.container}>
+        <TouchableOpacity
+            style={[styles.card, style]}
+            onPress={() => {
+                setModalVisible(true);
+                if (onPress) onPress();
+            }}
+        >
             <Image source={{ uri: imagem }} style={styles.image} />
             <Text style={styles.title} numberOfLines={2}>{titulo}</Text>
         </TouchableOpacity>
+        </View>
+
+        <Modal
+            visible={modalVisible}
+            transparent={true}
+            animationType="fade"
+            onRequestClose={() => setModalVisible(false)}
+        >
+            <View style={styles.overlay}>
+                <View style={styles.modal}>
+                    <Pressable
+                        style={styles.button01}
+                        onPress={() => setModalVisible(false)}
+                        hitSlop={15}
+                    >
+                        <Ionicons name="arrow-back" size={25} color="#FF0000" />
+                    </Pressable>
+                    <Image source={{ uri: imagem }} style={styles.cardimage} />
+                    <Text style={styles.cardtitle}>{titulo}</Text>
+                    <Text style={styles.carddescription}>{descricao}</Text>
+                    <Pressable
+                        style={styles.button}
+                        onPress={handleOuvir}
+                    >
+                        <Text style={styles.buttonText}>Ver Vídeo</Text>
+                    </Pressable>
+                </View>
+            </View>
+        </Modal>
+        </>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20,
+    },
     card: {
-        width: 190,
-        height: 180,
-        backgroundColor: '#fff',
+        width: 270,
+        height: 210,
+        backgroundColor: '#050a30',
         borderRadius: 8,
         marginBottom: 16,
         overflow: 'hidden',
         elevation: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     image: {
-        width: '100%',
-        height: 140,
+        width: '90%',
+        height: 150,
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
     },
     title: {
-        fontSize: 12,
+        fontSize: 15,
         fontWeight: 'bold',
-        color: '#222',
+        color: '#fff',
         padding: 8,
+    },
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.55)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modal: {
+        backgroundColor: '#fff',
+        borderRadius: 16,
+        padding: 20,
+        width: '90%',
+        alignItems: 'center',
+        position: 'relative',
+    },
+    cardimage: {
+        width: '100%',
+        height: 180,
+        borderRadius: 12,
+        marginBottom: 16,
+        marginTop: 25,
+    },
+    cardtitle: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        marginBottom: 8,
+        textAlign: 'center',
+        textDecorationLine: 'underline',
+    },
+    carddescription: {
+        fontSize: 15,
+        color: '#444',
+        textAlign: 'center',
+        marginBottom: 16,
+    },
+    button01: {
+        position: 'absolute',
+        top: 12,
+        left: 12,
+        zIndex: 10,
+        backgroundColor: 'transparent',
+        padding: 4,
+    },
+    button: {
+        backgroundColor: '#000339',
+        width: '96%',
+        paddingVertical: 12,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginTop: 8,
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16,
     },
 });
