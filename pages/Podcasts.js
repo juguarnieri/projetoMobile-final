@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, ScrollView, ActivityIndicator,TextInput, Linking, Modal,
-TouchableOpacity, Share, Alert, Platform} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image, ScrollView, ActivityIndicator, TextInput, Linking, Modal,TouchableOpacity, Share, Alert, Platform} from 'react-native';
 import Card3 from '../components/Card3';
 import bannerImage from '../assets/img/podcast.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 
 
-function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
+function CriminalModal({ visible, onClose, podcast, onToggleFavorite }) {
   if (!podcast) return null;
 
  
@@ -29,7 +28,7 @@ function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
     );
   };
 
- 
+  
   const shareNative = async () => {
     try {
       await Share.share({
@@ -48,7 +47,7 @@ function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContentCriminal}>
-        
+         
           <View style={styles.iconRow}>
             <Icon name="account-search" size={20} color="#aaa" style={styles.icon} />
             <Icon name="police-badge" size={20} color="#ea4335" style={styles.icon} />
@@ -66,7 +65,7 @@ function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
             <Text style={styles.modalDescription}>{podcast.description}</Text>
           )}
 
-      
+          
           <TouchableOpacity
             style={[
               styles.actionBtn,
@@ -125,6 +124,7 @@ export default function Podcasts() {
   const [podcasts, setPodcasts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [selectedPodcast, setSelectedPodcast] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -179,14 +179,28 @@ export default function Podcasts() {
         </View>
       </View>
 
-      <View style={styles.searchContainer}>
+   
+      <View style={styles.liveSearchGroup}>
         <TextInput
-          style={styles.searchInput}
-          placeholder="Qual podcast deseja ouvir hoje?"
-          placeholderTextColor="#999"
-          value={search}
-          onChangeText={setSearch}
+          style={styles.liveSearchInput}
+          placeholder="Buscar Podcasts..."
+          value={searchInput}
+          onChangeText={setSearchInput}
+          placeholderTextColor="#888"
         />
+        
+        <TouchableOpacity
+          onPress={() => setSearch(searchInput)}
+          style={styles.liveSearchButton}
+        >
+          <Text style={{ fontSize: 20 }}>🔍</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => { setSearchInput(""); setSearch(""); }}
+          style={styles.searchClearButton}
+        >
+          <Text style={{ fontSize: 16 }}>❌</Text>
+        </TouchableOpacity>
       </View>
 
       {categorias.every((cat) => filteredPodcasts(cat).length === 0) && (
@@ -233,7 +247,7 @@ export default function Podcasts() {
         );
       })}
 
-      <Podcast
+      <CriminalModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         podcast={selectedPodcast}
@@ -288,6 +302,40 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textTransform: 'uppercase',
     letterSpacing: 1,
+  },
+  liveSearchGroup: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 10,
+    marginVertical: 8,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+  },
+  liveSearchInput: {
+    flex: 1,
+    height: 36,
+    backgroundColor: "#fff",
+    fontSize: 15,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+  },
+  liveSearchButton: {
+    marginLeft: 5,
+    backgroundColor: "#333",
+    borderRadius: 8,
+    padding: 6,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  searchClearButton: {
+    marginLeft: 5,
+    backgroundColor: "#333",
+    borderRadius: 8,
+    padding: 6,
+    justifyContent: "center",
+    alignItems: "center",
   },
   podcastList: {
     paddingLeft: 15,
@@ -364,7 +412,7 @@ const styles = StyleSheet.create({
     color: "#ddd",
     fontSize: 13,
     marginVertical: 8,
-    textAlign: "center",
+    textAlign: "justify",
   },
   actionBtn: {
     flexDirection: 'row',
@@ -426,7 +474,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#444',
   },
   shareBtnText: {
-    display: 'none', 
+    display: 'none',
   },
   listenBtn: {
     flexDirection: "row",
