@@ -9,10 +9,11 @@ export default function Card1({ imageUri, title }) {
                     source={{ uri: imageUri }}
                     style={styles.image}
                 />
+
+            <View style={styles.textContainer}>
+                <Text style={styles.title}>{title}</Text>
             </View>
 
-            <View style={styles.content}>
-                <Text style={styles.title}>{title}</Text>
             </View>
         </View>
     );
@@ -20,12 +21,10 @@ export default function Card1({ imageUri, title }) {
 
 const styles = StyleSheet.create({
     container: {
-        width: '87%',
-        marginLeft: '7%',
+        width: '100%',
         marginTop: 10,
     },
     card: {
-        marginBottom: 10,
         overflow: 'hidden',
     },
     image: {
@@ -36,9 +35,13 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     title: {
-        color: 'black',
-        fontSize: 16,
-        fontWeight: '600',
-        textAlign: 'left',
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: '700',    
+    },
+    textContainer: {
+        position: 'absolute',
+        marginTop: '10rem',
+        marginLeft: '1rem'
     },
 });

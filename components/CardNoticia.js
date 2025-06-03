@@ -13,7 +13,7 @@ export default function CardNoticia({ image, title, description, id }) {
     <View style={styles.card}>
       <Image source={{ uri: imageUrl }} style={styles.cardImage} />
       <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{title}</Text>
+        <Text style={styles.cardTitle} numberOfLines={2}>{title}</Text>
         <Text style={styles.cardDesc} numberOfLines={2}>{description}</Text>
         <TouchableOpacity style={styles.learnMoreBtn} onPress={() => navigation.navigate('NoticiaPage', { id})}>
           <Text style={styles.learnMoreText}>LEARN MORE</Text>

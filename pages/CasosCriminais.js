@@ -2,25 +2,22 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card1 from '../components/Card1';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import CardCasos from '../components/CardsCasos';
 
 export default function CasosCriminais() {
     const navigation = useNavigation();
     return (
-        <View style={{ flex: 1 }}>
-        <ScrollView style={styles.container}>
-            <View style={styles.buttons}>
-                <View style={styles.block}>
-                    <Text style={styles.title}>CW</Text>
-                </View>
-                <TouchableOpacity style={styles.gearButton}>
-                    <FontAwesome name="gear" size={24} color="black" />
-                </TouchableOpacity>
-            </View>
+        <View>
+        <ScrollView style={styles.container}>     
 
+            <View style={styles.titleCasos}>
+                <Text style={styles.mainTitle}>
+                    Casos Criminais
+                </Text>
+            </View>
             <Card1
-                imageUri="https://i.ytimg.com/vi/jCKE4N1KIbs/maxresdefault.jpg"
+                imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1UudotuU2fxqD4h-bEYysd3QDL5WjCnbSZg&s"
+                title="Casos Criminais"
             />
 
             <View style={styles.cardDecade}>
@@ -98,9 +95,6 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
     },
-    gearButton: {
-        marginRight: 20,
-    },
     cardDecade: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
@@ -109,4 +103,9 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         gap: 10,
     },
+    mainTitle: {
+        color: 'black',
+        fontWeight: '800',
+        fontSize: 'Bold'
+    }
 });
