@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     card: {
         width: 270,
         height: 210,
-        backgroundColor: '#050a30',
+        backgroundColor: '#ececec',
         borderRadius: 8,
         marginBottom: 16,
         overflow: 'hidden',
@@ -78,13 +78,12 @@ const styles = StyleSheet.create({
     image: {
         width: '90%',
         height: 150,
-        borderTopLeftRadius: 8,
-        borderTopRightRadius: 8,
+        borderRadius: 8,
     },
     title: {
         fontSize: 15,
         fontWeight: 'bold',
-        color: '#fff',
+        color: '#000',
         padding: 8,
     },
     overlay: {
@@ -111,6 +110,7 @@ const styles = StyleSheet.create({
     cardtitle: {
         fontWeight: 'bold',
         fontSize: 20,
+        color: '#000668',
         marginBottom: 8,
         textAlign: 'center',
         textDecorationLine: 'underline',
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
         padding: 4,
     },
     button: {
-        backgroundColor: '#000339',
+        backgroundColor: '#000788',
         width: '96%',
         paddingVertical: 12,
         borderRadius: 8,
