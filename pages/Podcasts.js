@@ -1,34 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Image,
-  ScrollView,
-  ActivityIndicator,
-  TextInput,
-  Linking,
-  Modal,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, ScrollView, ActivityIndicator,TextInput, Linking, Modal,
+TouchableOpacity, Share, Alert, Platform} from 'react-native';
 import Card3 from '../components/Card3';
 import bannerImage from '../assets/img/podcast.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 
 
-function CriminalModal({ visible, onClose, podcast }) {
+function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
   if (!podcast) return null;
 
-  
-  const dangerColors = {
-    "Alto": "#ea4335",
-    "Médio": "#fbbc05",
-    "Baixo": "#34a853",
-    "Perigo": "#ea4335"
+ 
+  const shareWhatsApp = () => {
+    const message = `${podcast.title}\n${podcast.link || ''}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    Linking.openURL(url).catch(() =>
+      Alert.alert('Erro', 'Não foi possível abrir o WhatsApp.')
+    );
   };
-  const color = dangerColors[podcast.dangerLevel] || dangerColors["Perigo"];
+
+
+  const shareInstagram = () => {
+    const url = Platform.OS === 'ios'
+      ? `instagram://app`
+      : `https://www.instagram.com/`;
+    Linking.openURL(url).catch(() =>
+      Alert.alert('Erro', 'Não foi possível abrir o Instagram.')
+    );
+  };
+
+ 
+  const shareNative = async () => {
+    try {
+      await Share.share({
+        message: `${podcast.title}\n${podcast.link || ''}`,
+        title: podcast.title,
+      });
+    } catch (error) {}
+  };
 
   return (
     <Modal
@@ -39,49 +48,72 @@ function CriminalModal({ visible, onClose, podcast }) {
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContentCriminal}>
-          
-          <View style={[styles.dangerBadge, { backgroundColor: color }]}>
-            <Icon name="alert-octagon" size={17} color="#fff" />
-            <Text style={styles.dangerText}>{podcast.dangerLevel || "Perigo"}</Text>
+        
+          <View style={styles.iconRow}>
+            <Icon name="account-search" size={20} color="#aaa" style={styles.icon} />
+            <Icon name="police-badge" size={20} color="#ea4335" style={styles.icon} />
+            <Icon name="fingerprint" size={20} color="#fff" style={styles.icon} />
           </View>
-       
+
           <Image
             source={{ uri: podcast.image || podcast.thumbnail }}
             style={styles.modalImage}
             resizeMode="cover"
           />
-         
           <Text style={styles.modalTitle}>{podcast.title}</Text>
-      
-          <View style={styles.infoRow}>
-            <Icon name="clock-outline" size={15} color="#bbb" />
-            <Text style={styles.infoText}>{podcast.duration || "Duração desconhecida"}</Text>
-            <Text style={styles.dot}>•</Text>
-            {podcast.free ? (
-              <Text style={[styles.infoText, styles.free]}>Acesso Livre</Text>
-            ) : (
-              <Text style={styles.infoText}>{podcast.price}</Text>
-            )}
-          </View>
-         
+
           {podcast.description && (
             <Text style={styles.modalDescription}>{podcast.description}</Text>
           )}
-    
+
+      
+          <TouchableOpacity
+            style={[
+              styles.actionBtn,
+              styles.actionBtnSmall,
+              podcast.isFavorite && styles.favoriteActive
+            ]}
+            onPress={() => onToggleFavorite && onToggleFavorite(podcast)}
+            activeOpacity={0.85}
+          >
+            <Icon
+              name={podcast.isFavorite ? "heart" : "heart-outline"}
+              size={18}
+              color={podcast.isFavorite ? "#ff3333" : "#fff"}
+            />
+            <Text style={styles.actionTextSmall}>
+              {podcast.isFavorite ? "Remover" : "Favoritar"}
+            </Text>
+          </TouchableOpacity>
+
+          <View style={styles.shareRow}>
+            <TouchableOpacity style={[styles.shareBtn, styles.shareBtnSmall, styles.shareWhatsapp]} onPress={shareWhatsApp}>
+              <Icon name="whatsapp" size={17} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.shareBtn, styles.shareBtnSmall, styles.shareInstagram]} onPress={shareInstagram}>
+              <Icon name="instagram" size={17} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.shareBtn, styles.shareBtnSmall, styles.shareNative]} onPress={shareNative}>
+              <Icon name="share-variant" size={17} color="#fff" />
+            </TouchableOpacity>
+          </View>
+
           {podcast.link && (
             <TouchableOpacity
-              style={styles.modalButton}
+              style={[styles.listenBtn, styles.listenBtnSmall]}
               onPress={() => Linking.openURL(podcast.link)}
+              activeOpacity={0.85}
             >
-              <Icon name="play-circle-outline" size={20} color="#fff" />
-              <Text style={styles.modalButtonText}>Ouvir Podcast</Text>
+              <Icon name="play-circle-outline" size={16} color="#fff" />
+              <Text style={styles.listenBtnTextSmall}>Ouvir</Text>
             </TouchableOpacity>
           )}
           <TouchableOpacity
-            style={styles.closeButton}
+            style={[styles.closeButton, styles.closeButtonSmall]}
             onPress={onClose}
+            activeOpacity={0.8}
           >
-            <Text style={styles.closeButtonText}>Fechar</Text>
+            <Text style={styles.closeButtonTextSmall}>Fechar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -150,7 +182,7 @@ export default function Podcasts() {
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder="Buscar podcast..."
+          placeholder="Qual podcast deseja ouvir hoje?"
           placeholderTextColor="#999"
           value={search}
           onChangeText={setSearch}
@@ -178,9 +210,7 @@ export default function Podcasts() {
                 <Card3
                   imageUri={item.image || item.thumbnail}
                   title={item.title}
-                  dangerLevel={item.dangerLevel} 
                   isFavorite={item.isFavorite}
-                  duration={item.duration}
                   price={item.price}
                   free={item.free}
                   onPress={() => {
@@ -188,7 +218,6 @@ export default function Podcasts() {
                     setModalVisible(true);
                   }}
                   onPressFavorite={() => {
-                   
                     setPodcasts((old) =>
                       old.map((p) =>
                         p === item
@@ -204,10 +233,20 @@ export default function Podcasts() {
         );
       })}
 
-      <CriminalModal
+      <Podcast
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         podcast={selectedPodcast}
+        onToggleFavorite={(podcast) => {
+          setPodcasts((old) =>
+            old.map((p) =>
+              p === podcast ? { ...p, isFavorite: !p.isFavorite } : p
+            )
+          );
+          setSelectedPodcast((old) =>
+            old ? { ...old, isFavorite: !old.isFavorite } : old
+          );
+        }}
       />
     </ScrollView>
   );
@@ -285,8 +324,6 @@ const styles = StyleSheet.create({
     color: '#888',
     marginTop: 10,
   },
-
-  
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(20,20,20,0.88)',
@@ -301,86 +338,135 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "relative",
   },
-  dangerBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
+  iconRow: {
+    flexDirection: 'row',
     marginBottom: 7,
+    justifyContent: 'center',
   },
-  dangerText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 13,
-    marginLeft: 5,
-    textTransform: "uppercase",
+  icon: {
+    marginHorizontal: 5,
   },
   modalImage: {
-    width: 180,
-    height: 104,
+    width: 140,
+    height: 78,
     borderRadius: 10,
-    marginBottom: 10,
+    marginBottom: 8,
     backgroundColor: "#333",
   },
   modalTitle: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 16,
     textAlign: "center",
-    marginBottom: 6,
-  },
-  infoRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 7,
-  },
-  infoText: {
-    fontSize: 14,
-    color: "#bbb",
-    marginLeft: 3,
-  },
-  dot: {
-    color: "#888",
-    marginHorizontal: 7,
-    fontSize: 14,
-  },
-  free: {
-    color: "#2ecc71",
-    fontWeight: "bold",
+    marginBottom: 5,
   },
   modalDescription: {
     color: "#ddd",
-    fontSize: 15,
-    marginVertical: 10,
+    fontSize: 13,
+    marginVertical: 8,
     textAlign: "center",
   },
-  modalButton: {
+  actionBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#333',
+    borderRadius: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 13,
+    marginTop: 5,
+    marginBottom: 7,
+    borderWidth: 1,
+    borderColor: '#444',
+    elevation: 1,
+  },
+  actionBtnSmall: {
+    paddingVertical: 5,
+    paddingHorizontal: 9,
+    minWidth: 70,
+  },
+  favoriteActive: {
+    backgroundColor: '#541010',
+    borderColor: '#ff3333',
+  },
+  actionTextSmall: {
+    color: "#fff",
+    marginLeft: 6,
+    fontSize: 13,
+    fontWeight: 'bold',
+    letterSpacing: 0.3
+  },
+  shareRow: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    justifyContent: 'center',
+    width: '100%',
+  },
+  shareBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 8,
+    marginHorizontal: 2,
+    elevation: 1,
+    minWidth: 36,
+    justifyContent: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+  },
+  shareBtnSmall: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+  },
+  shareWhatsapp: {
+    backgroundColor: '#25d366',
+  },
+  shareInstagram: {
+    backgroundColor: '#C13584',
+  },
+  shareNative: {
+    backgroundColor: '#444',
+  },
+  shareBtnText: {
+    display: 'none', 
+  },
+  listenBtn: {
     flexDirection: "row",
     backgroundColor: "#ea4335",
-    borderRadius: 9,
-    paddingVertical: 10,
-    paddingHorizontal: 24,
+    borderRadius: 8,
+    paddingVertical: 7,
+    paddingHorizontal: 18,
     alignItems: "center",
-    marginTop: 5,
-    marginBottom: 8,
+    marginTop: 3,
+    marginBottom: 5,
+    elevation: 1,
   },
-  modalButtonText: {
+  listenBtnSmall: {
+    paddingVertical: 7,
+    paddingHorizontal: 18,
+    minWidth: 70,
+  },
+  listenBtnTextSmall: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 15,
-    marginLeft: 7,
+    fontSize: 13,
+    marginLeft: 5,
   },
   closeButton: {
-    marginTop: 8,
+    marginTop: 6,
     backgroundColor: '#444',
     borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingVertical: 7,
+    paddingHorizontal: 18,
+    elevation: 1,
   },
-  closeButtonText: {
+  closeButtonSmall: {
+    paddingVertical: 7,
+    paddingHorizontal: 18,
+    minWidth: 70,
+  },
+  closeButtonTextSmall: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 13,
+    textAlign: 'center',
   },
 });
