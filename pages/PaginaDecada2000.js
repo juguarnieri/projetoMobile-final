@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
-import CardNoticia from '../components/CardNoticia';
+import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import CardNoticia from '../components/CardNoticia';
+import Header from '../components/Header';
 
 const BASE_URL = 'http://localhost:4000';
 
@@ -11,7 +12,7 @@ export default function PaginaDecada2000() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/news?decade=anos 2000`, {
+    fetch(`${BASE_URL}/api/news?decade=00`, {
       headers: { 'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z' }
     })
       .then(res => res.json())
@@ -34,10 +35,11 @@ export default function PaginaDecada2000() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#222' }}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>CASOS CRIMINAIS</Text>
-      </View>
+    <ScrollView>
+      <Header 
+        titleWhite='CRIME'
+        titleRed='WHISPERS'
+      />
       <FlatList
         ListHeaderComponent={
           noticias.length > 0 && (
@@ -49,12 +51,6 @@ export default function PaginaDecada2000() {
               />
               <View style={styles.topOverlay}>
                 <Text style={styles.topDecade}>DÉCADA 2000</Text>
-                <TouchableOpacity
-                  style={styles.learnMoreBtn}
-                  onPress={() => navigation.navigate('NoticiaPage', { id: noticias[0].id })}
-                >
-                  <Text style={styles.learnMoreText}>LEARN MORE</Text>
-                </TouchableOpacity>
               </View>
             </View>
           )
@@ -69,35 +65,22 @@ export default function PaginaDecada2000() {
             id={item.id}
           />
         )}
+        ItemSeparatorComponent={() => <View style={styles.line} />}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#222' },
-  header: {
-    backgroundColor: '#fff',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc'
-  },
-  headerTitle: {
-    color: '#222',
-    fontWeight: 'bold',
-    fontSize: 18,
-    textAlign: 'left'
-  },
   topCard: {
-    margin: 10,
-    borderRadius: 10,
     overflow: 'hidden',
-    position: 'relative'
+    position: 'relative', 
+    marginBottom: 10,
   },
   topImage: {
     width: '100%',
-    height: 120,
+    height: 200,
   },
   topOverlay: {
     position: 'absolute',
@@ -107,7 +90,7 @@ const styles = StyleSheet.create({
     padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   topDecade: {
     color: '#fff',
@@ -115,17 +98,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 2
   },
-  learnMoreBtn: {
-    backgroundColor: '#d32f2f',
-    borderRadius: 20,
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-    marginLeft: 10
-  },
-  learnMoreText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 13
+  line: {
+    height: 1,
+    backgroundColor: 'black',
+    marginHorizontal: 16,
   }
-
 });

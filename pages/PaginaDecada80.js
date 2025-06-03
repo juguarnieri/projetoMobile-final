@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  StyleSheet,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
-import CardNoticia from "../components/CardNoticia";
-import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import CardNoticia from '../components/CardNoticia';
+import Header from '../components/Header';
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = 'http://localhost:4000';
 
 export default function PaginaDecada80() {
   const [noticias, setNoticias] = useState([]);
@@ -20,15 +13,15 @@ export default function PaginaDecada80() {
 
   useEffect(() => {
     fetch(`${BASE_URL}/api/news?decade=80`, {
-      headers: { "x-api-key": "nUN1NOc7BuiiO7iSYR7gek0bxG821Z" },
+      headers: { 'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z' }
     })
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         setNoticias(data.data || data || []);
         setLoading(false);
       })
       .catch((err) => {
-        console.log("Erro ao buscar notícias:", err);
+        console.log('Erro ao buscar notícias:', err);
         setLoading(false);
       });
   }, []);
@@ -42,10 +35,11 @@ export default function PaginaDecada80() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#222" }}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>CASOS CRIMINAIS</Text>
-      </View>
+    <ScrollView>
+      <Header 
+        titleWhite='CRIME'
+        titleRed='WHISPERS'
+      />
       <FlatList
         ListHeaderComponent={
           noticias.length > 0 && (
@@ -57,20 +51,12 @@ export default function PaginaDecada80() {
               />
               <View style={styles.topOverlay}>
                 <Text style={styles.topDecade}>DÉCADA 1980</Text>
-                <TouchableOpacity
-                  style={styles.learnMoreBtn}
-                  onPress={() =>
-                    navigation.navigate("NoticiaPage", { id: noticias[0].id })
-                  }
-                >
-                  <Text style={styles.learnMoreText}>LEARN MORE</Text>
-                </TouchableOpacity>
               </View>
             </View>
           )
         }
         data={noticias.slice(1)}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={item => item.id.toString()}
         renderItem={({ item }) => (
           <CardNoticia
             image={item.image}
@@ -79,67 +65,42 @@ export default function PaginaDecada80() {
             id={item.id}
           />
         )}
+        ItemSeparatorComponent={() => <View style={styles.line} />}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  center: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#222",
-  },
-  header: {
-    backgroundColor: "#fff",
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-  },
-  headerTitle: {
-    color: "#222",
-    fontWeight: "bold",
-    fontSize: 18,
-    textAlign: "left",
-  },
   topCard: {
-    margin: 10,
-    borderRadius: 10,
-    overflow: "hidden",
-    position: "relative",
+    overflow: 'hidden',
+    position: 'relative', 
+    marginBottom: 10,
   },
   topImage: {
-    width: "100%",
-    height: 120,
+    width: '100%',
+    height: 200,
   },
   topOverlay: {
-    position: "absolute",
+    position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
     padding: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   topDecade: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 22,
-    fontWeight: "bold",
-    letterSpacing: 2,
+    fontWeight: 'bold',
+    letterSpacing: 2
   },
-  learnMoreBtn: {
-    backgroundColor: "#d32f2f",
-    borderRadius: 20,
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-    marginLeft: 10,
-  },
-  learnMoreText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 13,
-  },
+  line: {
+    height: 1,
+    backgroundColor: 'black',
+    marginHorizontal: 16,
+  }
 });
