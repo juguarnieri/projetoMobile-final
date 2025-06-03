@@ -19,7 +19,7 @@ export default function NewsDetailCard({ title, image, description, text, link }
         <View style={styles.content}>
           <Text style={styles.detailTitle}>{title}</Text>
           <Text style={styles.description}>{description}</Text>
-          <Text style={styles.description}>{text}</Text>
+          <Text style={styles.text}>{text}</Text>
           {link && (
             <TouchableOpacity onPress={() => Linking.openURL(link)}>
               <Text style={styles.button}>🔗 Ver fonte original</Text>
@@ -71,6 +71,13 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     color: '#888',
+    fontFamily: 'Sanchez',
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  text: {
+    fontSize: 16,
+    color: '#222',
     fontFamily: 'Sanchez',
     textAlign: 'center',
     marginBottom: 12,
