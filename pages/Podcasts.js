@@ -1,13 +1,100 @@
 import React, { useEffect, useState } from 'react';
-import {View, Text, StyleSheet, FlatList, Image, ScrollView, ActivityIndicator, TextInput, Linking } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  ScrollView,
+  ActivityIndicator,
+  TextInput,
+  Linking,
+  Modal,
+  TouchableOpacity,
+} from 'react-native';
 import Card3 from '../components/Card3';
 import bannerImage from '../assets/img/podcast.jpg';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
+
+
+function CriminalModal({ visible, onClose, podcast }) {
+  if (!podcast) return null;
+
+  
+  const dangerColors = {
+    "Alto": "#ea4335",
+    "Médio": "#fbbc05",
+    "Baixo": "#34a853",
+    "Perigo": "#ea4335"
+  };
+  const color = dangerColors[podcast.dangerLevel] || dangerColors["Perigo"];
+
+  return (
+    <Modal
+      visible={visible}
+      transparent
+      animationType="slide"
+      onRequestClose={onClose}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContentCriminal}>
+          
+          <View style={[styles.dangerBadge, { backgroundColor: color }]}>
+            <Icon name="alert-octagon" size={17} color="#fff" />
+            <Text style={styles.dangerText}>{podcast.dangerLevel || "Perigo"}</Text>
+          </View>
+       
+          <Image
+            source={{ uri: podcast.image || podcast.thumbnail }}
+            style={styles.modalImage}
+            resizeMode="cover"
+          />
+         
+          <Text style={styles.modalTitle}>{podcast.title}</Text>
+      
+          <View style={styles.infoRow}>
+            <Icon name="clock-outline" size={15} color="#bbb" />
+            <Text style={styles.infoText}>{podcast.duration || "Duração desconhecida"}</Text>
+            <Text style={styles.dot}>•</Text>
+            {podcast.free ? (
+              <Text style={[styles.infoText, styles.free]}>Acesso Livre</Text>
+            ) : (
+              <Text style={styles.infoText}>{podcast.price}</Text>
+            )}
+          </View>
+         
+          {podcast.description && (
+            <Text style={styles.modalDescription}>{podcast.description}</Text>
+          )}
+    
+          {podcast.link && (
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => Linking.openURL(podcast.link)}
+            >
+              <Icon name="play-circle-outline" size={20} color="#fff" />
+              <Text style={styles.modalButtonText}>Ouvir Podcast</Text>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={onClose}
+          >
+            <Text style={styles.closeButtonText}>Fechar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  );
+}
 
 export default function Podcasts() {
   const [podcasts, setPodcasts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [selectedPodcast, setSelectedPodcast] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const API_KEY = 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z';
 
@@ -18,18 +105,18 @@ export default function Podcasts() {
   const fetchPodcasts = async () => {
     try {
       const response = await axios.get('http://localhost:4000/api/podcasts', {
-        headers: { 'x-api-key': API_KEY }
+        headers: { 'x-api-key': API_KEY },
       });
       setPodcasts(response.data.data);
     } catch (error) {
-      console.error("Erro ao buscar podcasts:", error);
+      console.error('Erro ao buscar podcasts:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const categorias = [];
-  podcasts.forEach(p => {
+  podcasts.forEach((p) => {
     if (p.category && !categorias.includes(p.category)) {
       categorias.push(p.category);
     }
@@ -37,8 +124,8 @@ export default function Podcasts() {
 
   const filteredPodcasts = (category) => {
     return podcasts
-      .filter(p => p.category === category)
-      .filter(p => p.title.toLowerCase().includes(search.toLowerCase()));
+      .filter((p) => p.category === category)
+      .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
   };
 
   if (loading) {
@@ -70,7 +157,7 @@ export default function Podcasts() {
         />
       </View>
 
-      {categorias.every(cat => filteredPodcasts(cat).length === 0) && (
+      {categorias.every((cat) => filteredPodcasts(cat).length === 0) && (
         <Text style={styles.emptyMessage}>Nenhum podcast encontrado.</Text>
       )}
 
@@ -91,10 +178,24 @@ export default function Podcasts() {
                 <Card3
                   imageUri={item.image || item.thumbnail}
                   title={item.title}
+                  dangerLevel={item.dangerLevel} 
+                  isFavorite={item.isFavorite}
+                  duration={item.duration}
+                  price={item.price}
+                  free={item.free}
                   onPress={() => {
-                    if (item.link) {
-                      Linking.openURL(item.link);
-                    }
+                    setSelectedPodcast(item);
+                    setModalVisible(true);
+                  }}
+                  onPressFavorite={() => {
+                   
+                    setPodcasts((old) =>
+                      old.map((p) =>
+                        p === item
+                          ? { ...p, isFavorite: !p.isFavorite }
+                          : p
+                      )
+                    );
                   }}
                 />
               )}
@@ -102,6 +203,12 @@ export default function Podcasts() {
           </View>
         );
       })}
+
+      <CriminalModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        podcast={selectedPodcast}
+      />
     </ScrollView>
   );
 }
@@ -177,5 +284,103 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#888',
     marginTop: 10,
+  },
+
+  
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(20,20,20,0.88)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContentCriminal: {
+    width: 320,
+    backgroundColor: "#232526",
+    borderRadius: 20,
+    padding: 22,
+    alignItems: "center",
+    position: "relative",
+  },
+  dangerBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    marginBottom: 7,
+  },
+  dangerText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 13,
+    marginLeft: 5,
+    textTransform: "uppercase",
+  },
+  modalImage: {
+    width: 180,
+    height: 104,
+    borderRadius: 10,
+    marginBottom: 10,
+    backgroundColor: "#333",
+  },
+  modalTitle: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 18,
+    textAlign: "center",
+    marginBottom: 6,
+  },
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 7,
+  },
+  infoText: {
+    fontSize: 14,
+    color: "#bbb",
+    marginLeft: 3,
+  },
+  dot: {
+    color: "#888",
+    marginHorizontal: 7,
+    fontSize: 14,
+  },
+  free: {
+    color: "#2ecc71",
+    fontWeight: "bold",
+  },
+  modalDescription: {
+    color: "#ddd",
+    fontSize: 15,
+    marginVertical: 10,
+    textAlign: "center",
+  },
+  modalButton: {
+    flexDirection: "row",
+    backgroundColor: "#ea4335",
+    borderRadius: 9,
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    alignItems: "center",
+    marginTop: 5,
+    marginBottom: 8,
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 15,
+    marginLeft: 7,
+  },
+  closeButton: {
+    marginTop: 8,
+    backgroundColor: '#444',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  closeButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
