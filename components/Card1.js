@@ -22,7 +22,6 @@ export default function Card1({ imageUri, title }) {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        marginTop: 10,
     },
     card: {
         overflow: 'hidden',
@@ -36,12 +35,12 @@ const styles = StyleSheet.create({
     },
     title: {
         color: '#fff',
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: '700',    
     },
     textContainer: {
         position: 'absolute',
-        marginTop: '10rem',
-        marginLeft: '1rem'
+        marginTop: '9.5rem',
+        paddingLeft: 20,
     },
 });

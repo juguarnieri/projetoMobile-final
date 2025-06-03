@@ -14,11 +14,12 @@ export default function CardCasos({ imageUri, title }) {
 
 const styles = StyleSheet.create({
   card: {
-    width: 150,
-    height: 100,
+    width: 200,
+    height: 120,
     overflow: 'hidden',
     elevation: 3,
     marginHorizontal: 5,
+    marginTop: 10,
   },
   image: {
     width: '100%',
@@ -29,12 +30,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     paddingVertical: 8,
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
   },
   title: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: 'left',
   },
 });

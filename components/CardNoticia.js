@@ -11,7 +11,7 @@ export default function CardNoticia({ image, title, description, id }) {
 
   return (
     <View style={styles.card}>
-      <Image source={{ uri: imageUrl }} style={styles.cardImage} />
+      <Image source={{ uri: imageUrl }} style={styles.cardImage} resizeMode="cover"/>
       <View style={styles.cardContent}>
         <Text style={styles.cardTitle} numberOfLines={2}>{title}</Text>
         <Text style={styles.cardDesc} numberOfLines={2}>{description}</Text>
@@ -26,16 +26,16 @@ export default function CardNoticia({ image, title, description, id }) {
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
     marginHorizontal: 10,
     marginVertical: 6,
-    borderRadius: 10,
     overflow: 'hidden',
-    elevation: 2
+    elevation: 2,
+    marginTop: 20,
+    marginBottom: 20,
   },
   cardImage: {
-    width: '30%',
-    height: '100%',
+    width: 210,
+    height: 150,
   },
   cardContent: {
     flex: 1,

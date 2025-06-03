@@ -10,11 +10,6 @@ export default function CasosCriminais() {
         <View>
         <ScrollView style={styles.container}>     
 
-            <View style={styles.titleCasos}>
-                <Text style={styles.mainTitle}>
-                    Casos Criminais
-                </Text>
-            </View>
             <Card1
                 imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1UudotuU2fxqD4h-bEYysd3QDL5WjCnbSZg&s"
                 title="Casos Criminais"
@@ -27,7 +22,7 @@ export default function CasosCriminais() {
                 title="Década de 70"
             />
             </TouchableOpacity>
-             <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada80')}>
+                <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada80')}>
             <CardCasos 
                 imageUri="https://www.cartacapital.com.br/wp-content/uploads/2019/03/araceli-ana-lidia.jpg"
                 title="Década de 80"
@@ -36,7 +31,7 @@ export default function CasosCriminais() {
             </View>
 
             <View style={styles.cardDecade}>
-                 <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada90')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada90')}>
             <CardCasos 
                 imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpKE1Dy75eJfKBxCuLb2a7Hy6Rd84f6-0exA&s"
                 title="Década de 90"
@@ -75,18 +70,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         width: '100%',
     },
-    block: {
-        backgroundColor: 'red',
-        width: 30,
-        height: 30,
-        marginLeft: 20,
-    },
     title: {
         fontSize: 15,
         fontWeight: 'bold',
         color: '#FFFFFF',
         textAlign: 'center',
-        marginTop: 5,
+        marginTop: 10,
     },
     buttons: {
         flexDirection: 'row',
@@ -103,9 +92,4 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         gap: 10,
     },
-    mainTitle: {
-        color: 'black',
-        fontWeight: '800',
-        fontSize: 'Bold'
-    }
 });
