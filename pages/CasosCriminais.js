@@ -56,7 +56,7 @@ export default function CasosCriminais() {
             <View style={styles.cardDecade}>
                 <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada2010')}>
             <CardCasos 
-                imageUri="https://filmindica.com/wp-content/uploads/2023/06/series-sobre-casos-criminais-reais-1-1.webp"
+                imageUri="https://www.projuris.com.br/wp-content/uploads/2022/11/crimes-hediondos.jpg"
                 title="Década de 2010"
             />
             </TouchableOpacity>
