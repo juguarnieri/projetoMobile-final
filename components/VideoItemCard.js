@@ -39,7 +39,7 @@ export default function VideoItemCard({ titulo, imagem, descricao, link, onPress
                         onPress={() => setModalVisible(false)}
                         hitSlop={15}
                     >
-                        <Ionicons name="arrow-back" size={25} color="#FF0000" />
+                        <Ionicons name="arrow-back" size={25} color="#000788" />
                     </Pressable>
                     <Image source={{ uri: imagem }} style={styles.cardimage} />
                     <Text style={styles.cardtitle}>{titulo}</Text>
