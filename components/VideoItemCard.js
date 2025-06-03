@@ -48,7 +48,10 @@ export default function VideoItemCard({ titulo, imagem, descricao, link, onPress
                         style={styles.button}
                         onPress={handleOuvir}
                     >
+                    <View style={styles.buttonModel}>
+                        <Ionicons name="play-circle-outline" size={25} color="#fff" />
                         <Text style={styles.buttonText}>Ver Vídeo</Text>
+                    </View>
                     </Pressable>
                 </View>
             </View>
@@ -141,5 +144,10 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    buttonModel: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 5,
     },
 });
