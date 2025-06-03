@@ -6,12 +6,13 @@ import NoticiaImageCard from '../components/NoticiaImageCard';
 import VideoCard from '../components/VideoCard';
 import PodcastImageCard from '../components/PodcastImageCard';
 
-const BASE_URL = 'http://192.168.5.192:4000';
+const BASE_URL = 'http://localhost:4000';
 
 function getImageUrl(imagem) {
     if (!imagem) return null;
     if (imagem.startsWith('http')) return imagem;
-    return `${BASE_URL}${imagem}`;
+    if (imagem.startsWith('/')) return `${BASE_URL}${imagem}`;
+    return `${BASE_URL}/uploads/${imagem}`;
 }
 
 function filtrarItens(itens, busca) {
@@ -85,7 +86,7 @@ return (
             image={getImageUrl(item.image)}
             title={item.title}
             buttonText="Ler notícia"
-            onPress={() => alert(`Ver notícia: ${item.title}`)}
+            onPress={() => navigation.navigate('NoticiaPage', { id: item.id })}
             />
         </View>
         
@@ -103,7 +104,7 @@ return (
             image={getImageUrl(item.image)}
             title={item.title}
             buttonText="Ler notícia"
-            onPress={() => alert(`Ver notícia: ${item.title}`)}
+            onPress={() => navigation.navigate('NoticiaPage', { id: item.id })}
         />
         </View>
         )}
