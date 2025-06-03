@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import Card1 from '../components/Card1';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import CardCasos from '../components/CardsCasos';
-import TabRoutes from '../navigation/TabRoutes';
 
 export default function CasosCriminais() {
     const navigation = useNavigation();
@@ -70,7 +69,6 @@ export default function CasosCriminais() {
             </View>
         </ScrollView>
 
-        <TabRoutes />
         </View>
     );
 }
