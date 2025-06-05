@@ -2,25 +2,17 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card1 from '../components/Card1';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import CardCasos from '../components/CardsCasos';
 
 export default function CasosCriminais() {
     const navigation = useNavigation();
     return (
-        <View style={{ flex: 1 }}>
-        <ScrollView style={styles.container}>
-            <View style={styles.buttons}>
-                <View style={styles.block}>
-                    <Text style={styles.title}>CW</Text>
-                </View>
-                <TouchableOpacity style={styles.gearButton}>
-                    <FontAwesome name="gear" size={24} color="black" />
-                </TouchableOpacity>
-            </View>
+        <View>
+        <ScrollView style={styles.container}>     
 
             <Card1
-                imageUri="https://i.ytimg.com/vi/jCKE4N1KIbs/maxresdefault.jpg"
+                imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1UudotuU2fxqD4h-bEYysd3QDL5WjCnbSZg&s"
+                title="Casos Criminais"
             />
 
             <View style={styles.cardDecade}>
@@ -30,7 +22,7 @@ export default function CasosCriminais() {
                 title="Década de 70"
             />
             </TouchableOpacity>
-             <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada80')}>
+                <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada80')}>
             <CardCasos 
                 imageUri="https://www.cartacapital.com.br/wp-content/uploads/2019/03/araceli-ana-lidia.jpg"
                 title="Década de 80"
@@ -39,7 +31,7 @@ export default function CasosCriminais() {
             </View>
 
             <View style={styles.cardDecade}>
-                 <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada90')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada90')}>
             <CardCasos 
                 imageUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpKE1Dy75eJfKBxCuLb2a7Hy6Rd84f6-0exA&s"
                 title="Década de 90"
@@ -78,18 +70,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         width: '100%',
     },
-    block: {
-        backgroundColor: 'red',
-        width: 30,
-        height: 30,
-        marginLeft: 20,
-    },
     title: {
         fontSize: 15,
         fontWeight: 'bold',
         color: '#FFFFFF',
         textAlign: 'center',
-        marginTop: 5,
+        marginTop: 10,
     },
     buttons: {
         flexDirection: 'row',
@@ -97,9 +83,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         alignItems: 'center',
-    },
-    gearButton: {
-        marginRight: 20,
     },
     cardDecade: {
         flexDirection: 'row',

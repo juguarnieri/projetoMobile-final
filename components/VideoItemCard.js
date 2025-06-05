@@ -39,7 +39,7 @@ export default function VideoItemCard({ titulo, imagem, descricao, link, onPress
                         onPress={() => setModalVisible(false)}
                         hitSlop={15}
                     >
-                        <Ionicons name="arrow-back" size={25} color="#FF0000" />
+                        <Ionicons name="arrow-back" size={25} color="#000788" />
                     </Pressable>
                     <Image source={{ uri: imagem }} style={styles.cardimage} />
                     <Text style={styles.cardtitle}>{titulo}</Text>
@@ -48,7 +48,10 @@ export default function VideoItemCard({ titulo, imagem, descricao, link, onPress
                         style={styles.button}
                         onPress={handleOuvir}
                     >
+                    <View style={styles.buttonModel}>
+                        <Ionicons name="play-circle-outline" size={25} color="#fff" />
                         <Text style={styles.buttonText}>Ver Vídeo</Text>
+                    </View>
                     </Pressable>
                 </View>
             </View>
@@ -141,5 +144,10 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    buttonModel: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 5,
     },
 });

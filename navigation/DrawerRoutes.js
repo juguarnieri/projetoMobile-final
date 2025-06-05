@@ -6,7 +6,6 @@ import CasosCriminais from "../pages/CasosCriminais";
 import LiveTv from "../pages/LiveTv";
 import Podcast from "../pages/Podcasts";
 import Quiz from "../pages/Quiz";
-
 const Drawer = createDrawerNavigator();
 
 export default function DrawerRoutes() {

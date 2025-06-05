@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#222",
         marginRight: 8,
+        marginLeft: 16,
     },
     liveSearchButton: {
         padding: 8,
@@ -181,6 +182,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffe6e6",
         borderRadius: 8,
         height: 40,
+        marginRight: 15,
     },
     CardTitle: {
         fontSize: 18,
