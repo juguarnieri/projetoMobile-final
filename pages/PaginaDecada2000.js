@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import CardNoticia from '../components/CardNoticia';
 import Header from '../components/Header';
 
@@ -40,6 +41,14 @@ export default function PaginaDecada2000() {
         titleWhite='CRIME'
         titleRed='WHISPERS'
       />
+
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <View style={styles.backButtonContent}>
+          <Ionicons name="arrow-back" size={20} color="#000339" />
+          <Text style={styles.backButtonText}>Voltar</Text>
+        </View>
+      </TouchableOpacity> 
+      
       <FlatList
         ListHeaderComponent={
           noticias.length > 0 && (
@@ -65,14 +74,37 @@ export default function PaginaDecada2000() {
             id={item.id}
           />
         )}
+        
         ItemSeparatorComponent={() => <View style={styles.line} />}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
+      
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  backButton: {
+    marginTop: 20,
+    marginLeft: 16,
+    marginBottom: 8,
+    alignSelf: 'flex-start',
+    backgroundColor: '#f2f2f2',
+    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    elevation: 2,
+  },
+  backButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  backButtonText: {
+    color: '#000339',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 6,
+  },
   topCard: {
     overflow: 'hidden',
     position: 'relative', 
