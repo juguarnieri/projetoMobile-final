@@ -5,11 +5,9 @@ import bannerImage from '../assets/img/podcast.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 
-
-function Podcasts({ visible, onClose, podcast, onToggleFavorite }) {
+export function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
   if (!podcast) return null;
 
- 
   const shareWhatsApp = () => {
     const message = `${podcast.title}\n${podcast.link || ''}`;
     const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
@@ -17,7 +15,6 @@ function Podcasts({ visible, onClose, podcast, onToggleFavorite }) {
       Alert.alert('Erro', 'Não foi possível abrir o WhatsApp.')
     );
   };
-
 
   const shareInstagram = () => {
     const url = Platform.OS === 'ios'
@@ -28,7 +25,6 @@ function Podcasts({ visible, onClose, podcast, onToggleFavorite }) {
     );
   };
 
-  
   const shareNative = async () => {
     try {
       await Share.share({
@@ -47,7 +43,6 @@ function Podcasts({ visible, onClose, podcast, onToggleFavorite }) {
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContentCriminal}>
-         
           <View style={styles.iconRow}>
             <Icon name="account-search" size={20} color="#aaa" style={styles.icon} />
             <Icon name="police-badge" size={20} color="#ea4335" style={styles.icon} />
@@ -65,7 +60,6 @@ function Podcasts({ visible, onClose, podcast, onToggleFavorite }) {
             <Text style={styles.modalDescription}>{podcast.description}</Text>
           )}
 
-          
           <TouchableOpacity
             style={[
               styles.actionBtn,
@@ -119,6 +113,7 @@ function Podcasts({ visible, onClose, podcast, onToggleFavorite }) {
     </Modal>
   );
 }
+
 
 export default function Podcasts() {
   const [podcasts, setPodcasts] = useState([]);
@@ -179,7 +174,6 @@ export default function Podcasts() {
         </View>
       </View>
 
-   
       <View style={styles.liveSearchGroup}>
         <TextInput
           style={styles.liveSearchInput}
@@ -188,7 +182,6 @@ export default function Podcasts() {
           onChangeText={setSearchInput}
           placeholderTextColor="#888"
         />
-        
         <TouchableOpacity
           onPress={() => setSearch(searchInput)}
           style={styles.liveSearchButton}
@@ -247,7 +240,7 @@ export default function Podcasts() {
         );
       })}
 
-      <Podcasts
+      <Podcast
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         podcast={selectedPodcast}
