@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons'; // Adicione este import se estiver usando Expo
+import { Ionicons } from '@expo/vector-icons';
 import CardNoticia from '../components/CardNoticia';
 import Header from '../components/Header';
 
