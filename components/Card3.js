@@ -2,10 +2,18 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default function Card3({imageUri, title, isFavorite, price, free, onPress, onPressFavorite,
+export default function Card3({
+  imageUri,
+  title,
+  isFavorite,
+  price,
+  free,
+  onPress,
+  onPressFavorite,
+  cardStyle,
 }) {
   return (
-    <TouchableOpacity style={styles.card} activeOpacity={0.9} onPress={onPress}>
+    <TouchableOpacity style={[styles.card, cardStyle]} activeOpacity={0.9} onPress={onPress}>
       <TouchableOpacity onPress={onPressFavorite} style={styles.favoriteBtn}>
         <Icon
           name={isFavorite ? "handcuffs" : "handcuffs-off"}
@@ -29,7 +37,7 @@ export default function Card3({imageUri, title, isFavorite, price, free, onPress
 const styles = StyleSheet.create({
   card: {
     width: 200,
-    backgroundColor: "#27282b",
+    backgroundColor: "#fff",
     borderRadius: 13,
     margin: 10,
     alignItems: "flex-start",
@@ -37,9 +45,9 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
     position: "relative",
     borderWidth: 1,
-    borderColor: "#232526",
+    borderColor: "#eee",
     shadowColor: "#000",
-    shadowOpacity: 0.12,
+    shadowOpacity: 0.08,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 6,
   },
@@ -49,10 +57,10 @@ const styles = StyleSheet.create({
     right: 10,
     zIndex: 2,
     padding: 2,
-    backgroundColor: "#222",
+    backgroundColor: "#fff",
     borderRadius: 13,
     borderWidth: 1,
-    borderColor: "#333",
+    borderColor: "#eee",
   },
   image: {
     width: 180,
@@ -61,12 +69,12 @@ const styles = StyleSheet.create({
     marginTop: 28,
     marginHorizontal: 10,
     marginBottom: 8,
-    backgroundColor: "#333",
+    backgroundColor: "#f2f2f2",
   },
   title: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#333",
     textAlign: "left",
     marginLeft: 13,
     marginBottom: 4,
@@ -79,7 +87,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 13,
-    color: "#bbb",
+    color: "#666",
   },
   free: {
     color: "#2ecc71",
