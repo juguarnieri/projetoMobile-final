@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View, Text, StyleSheet, FlatList, Image, ScrollView, ActivityIndicator,
-  TextInput, Linking, Modal, TouchableOpacity, Share, Alert, Platform
-} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image, ScrollView, ActivityIndicator, TextInput, Linking, Modal, TouchableOpacity, Share, Alert, Platform} from 'react-native';
 import Card3 from '../components/Card3';
 import bannerImage from '../assets/img/podcast.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -70,7 +67,7 @@ export function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
               styles.actionBtnSmall,
               podcast.isFavorite && styles.favoriteActive
             ]}
-            onPress={() => onToggleFavorite && onToggleFavorite(podcast)}
+            onPress={() => Favorite && Favorite(podcast)}
             activeOpacity={0.85}
           >
             <Icon
@@ -172,7 +169,7 @@ export default function Podcasts() {
         <Image source={bannerImage} style={styles.banner} resizeMode="cover" />
         <View style={styles.overlay}>
           <Text style={styles.bannerTitle}>
-            {search ? 'RESULTADOS DA BUSCA' : 'PODCASTS'}
+            {search ? 'Resultados da Busca' : 'PODCASTS'}
           </Text>
         </View>
       </View>
@@ -372,7 +369,7 @@ const styles = StyleSheet.create({
     padding: 22,
     alignItems: "center",
     position: "relative",
-    backgroundColor: "#00204a", // Azul escuro top
+    backgroundColor: "#00204a", 
     overflow: "hidden",
   },
   iconRow: {
