@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import {View, Text, StyleSheet, FlatList, Image, ScrollView, ActivityIndicator, TextInput, Linking, Modal,TouchableOpacity, Share, Alert, Platform} from 'react-native';
+import {
+  View, Text, StyleSheet, FlatList, Image, ScrollView, ActivityIndicator,
+  TextInput, Linking, Modal, TouchableOpacity, Share, Alert, Platform
+} from 'react-native';
 import Card3 from '../components/Card3';
 import bannerImage from '../assets/img/podcast.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
+
 
 export function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
   if (!podcast) return null;
@@ -44,9 +48,9 @@ export function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
       <View style={styles.modalOverlay}>
         <View style={styles.modalContentCriminal}>
           <View style={styles.iconRow}>
-            <Icon name="account-search" size={20} color="#aaa" style={styles.icon} />
+            <Icon name="account-search" size={20} color="#5a5a5a" style={styles.icon} />
             <Icon name="police-badge" size={20} color="#ea4335" style={styles.icon} />
-            <Icon name="fingerprint" size={20} color="#fff" style={styles.icon} />
+            <Icon name="fingerprint" size={20} color="#2ecc71" style={styles.icon} />
           </View>
 
           <Image
@@ -114,7 +118,6 @@ export function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
   );
 }
 
-
 export default function Podcasts() {
   const [podcasts, setPodcasts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -174,25 +177,27 @@ export default function Podcasts() {
         </View>
       </View>
 
-      <View style={styles.liveSearchGroup}>
-        <TextInput
-          style={styles.liveSearchInput}
-          placeholder="Buscar Podcasts..."
-          value={searchInput}
-          onChangeText={setSearchInput}
-          placeholderTextColor="#888"
-        />
+      <View style={styles.liveSearchWrapper}>
+        <View style={styles.liveSearchGroup}>
+          <TextInput
+            style={styles.liveSearchInput}
+            placeholder="Buscar Podcasts..."
+            value={searchInput}
+            onChangeText={setSearchInput}
+            placeholderTextColor="#888"
+          />
+        </View>
         <TouchableOpacity
           onPress={() => setSearch(searchInput)}
-          style={styles.liveSearchButton}
+          style={styles.liveSearchIconBtn}
         >
-          <Text style={{ fontSize: 20 }}>🔍</Text>
+          <Icon name="magnify" size={23} color="#ea4335" />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => { setSearchInput(""); setSearch(""); }}
-          style={styles.searchClearButton}
+          style={styles.liveSearchIconBtn}
         >
-          <Text style={{ fontSize: 16 }}>❌</Text>
+          <Icon name="close" size={22} color="#ea4335" />
         </TouchableOpacity>
       </View>
 
@@ -220,6 +225,7 @@ export default function Podcasts() {
                   isFavorite={item.isFavorite}
                   price={item.price}
                   free={item.free}
+                  cardStyle={styles.podcastCardWhite}
                   onPress={() => {
                     setSelectedPodcast(item);
                     setModalVisible(true);
@@ -263,6 +269,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
+    backgroundColor: "#fff",
   },
   loading: {
     flex: 1,
@@ -296,37 +303,38 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
-  liveSearchGroup: {
+  liveSearchWrapper: {
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 10,
     marginVertical: 8,
+  },
+  liveSearchGroup: {
+    flex: 1,
     backgroundColor: "#fff",
     borderRadius: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    borderWidth: 1,
+    borderColor: "#eee",
+    height: 40,
+    justifyContent: "center"
   },
   liveSearchInput: {
     flex: 1,
-    height: 36,
+    height: 40,
     backgroundColor: "#fff",
     fontSize: 15,
     paddingHorizontal: 10,
     borderRadius: 8,
+    borderWidth: 0,
+    color: "#222",
   },
-  liveSearchButton: {
-    marginLeft: 5,
-    backgroundColor: "#333",
+  liveSearchIconBtn: {
+    marginLeft: 6,
+    backgroundColor: "transparent",
     borderRadius: 8,
-    padding: 6,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  searchClearButton: {
-    marginLeft: 5,
-    backgroundColor: "#333",
-    borderRadius: 8,
-    padding: 6,
+    padding: 3,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -346,19 +354,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
-  searchContainer: {
-    marginHorizontal: 10,
-    marginVertical: 5,
-  },
-  searchInput: {
-    height: 40,
-    backgroundColor: '#fff',
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    fontSize: 16,
-  },
   emptyMessage: {
     textAlign: 'center',
     fontSize: 16,
@@ -373,11 +368,12 @@ const styles = StyleSheet.create({
   },
   modalContentCriminal: {
     width: 320,
-    backgroundColor: "#232526",
     borderRadius: 20,
     padding: 22,
     alignItems: "center",
     position: "relative",
+    backgroundColor: "#00204a", // Azul escuro top
+    overflow: "hidden",
   },
   iconRow: {
     flexDirection: 'row',
@@ -392,7 +388,7 @@ const styles = StyleSheet.create({
     height: 78,
     borderRadius: 10,
     marginBottom: 8,
-    backgroundColor: "#333",
+    backgroundColor: "#f2f2f2",
   },
   modalTitle: {
     color: "#fff",
@@ -402,7 +398,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   modalDescription: {
-    color: "#ddd",
+    color: "#f0f0f0",
     fontSize: 13,
     marginVertical: 8,
     textAlign: "justify",
@@ -410,14 +406,14 @@ const styles = StyleSheet.create({
   actionBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#333',
+    backgroundColor: '#fff',
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 13,
     marginTop: 5,
     marginBottom: 7,
     borderWidth: 1,
-    borderColor: '#444',
+    borderColor: '#ddd',
     elevation: 1,
   },
   actionBtnSmall: {
@@ -426,11 +422,11 @@ const styles = StyleSheet.create({
     minWidth: 70,
   },
   favoriteActive: {
-    backgroundColor: '#541010',
+    backgroundColor: '#ffeaea',
     borderColor: '#ff3333',
   },
   actionTextSmall: {
-    color: "#fff",
+    color: "#444",
     marginLeft: 6,
     fontSize: 13,
     fontWeight: 'bold',
@@ -509,5 +505,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 13,
     textAlign: 'center',
+  },
+  podcastCardWhite: {
+    backgroundColor: "#fff",
+    borderColor: "#eee",
   },
 });
