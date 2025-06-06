@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { TouchableOpacity, Image, Text, StyleSheet, View, Linking, Pressable, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FavoriteBtn from './FavoriteBtn';
 
-export default function VideoItemCard({ titulo, imagem, descricao, link, onPress, style }) {
+export default function VideoItemCard({ titulo, imagem, descricao, link, onPress, style, isFavorite, onPressFavorite }) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleOuvir = () => {
@@ -21,6 +23,13 @@ export default function VideoItemCard({ titulo, imagem, descricao, link, onPress
                 if (onPress) onPress();
             }}
         >
+            <TouchableOpacity onPress={onPressFavorite} style={styles.favoriteBtn}>
+                <Icon
+                    name={isFavorite ? "handcuffs" : "handcuffs-off"}
+                    size={22}
+                    color={isFavorite ? "#ff3333" : "#bbb"}
+                />
+            </TouchableOpacity>
             <Image source={{ uri: imagem }} style={styles.image} />
             <Text style={styles.title} numberOfLines={2}>{titulo}</Text>
         </TouchableOpacity>
@@ -44,6 +53,9 @@ export default function VideoItemCard({ titulo, imagem, descricao, link, onPress
                     <Image source={{ uri: imagem }} style={styles.cardimage} />
                     <Text style={styles.cardtitle}>{titulo}</Text>
                     <Text style={styles.carddescription}>{descricao}</Text>
+                    
+                    <FavoriteBtn isFavorite={isFavorite} onPress={onPressFavorite} style={styles.favoriteDetailBtn} />
+                    
                     <Pressable
                         style={styles.button}
                         onPress={handleOuvir}
@@ -77,6 +89,17 @@ const styles = StyleSheet.create({
         elevation: 2,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    favoriteBtn: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        zIndex: 2,
+        padding: 2,
+        backgroundColor: '#fff',
+        borderRadius: 13,
+        borderWidth: 1,
+        borderColor: '#eee',
     },
     image: {
         width: '90%',
@@ -123,6 +146,12 @@ const styles = StyleSheet.create({
         color: '#444',
         textAlign: 'center',
         marginBottom: 16,
+    },
+    favoriteDetailBtn: {
+        alignSelf: "center",
+        marginBottom: 16,
+        marginTop: 2,
+        position: "relative",
     },
     button01: {
         position: 'absolute',
