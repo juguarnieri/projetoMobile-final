@@ -5,6 +5,15 @@ import VideosSection from "../components/VideosSection";
 import VideoItemCard from "../components/VideoItemCard";
 import Banner from "../components/Banner";
 
+const BASE_URL = 'http://localhost:4000';
+
+function getImageUrl(imagem) {
+    if (!imagem) return null;
+    if (imagem.startsWith('http')) return imagem;
+    if (imagem.startsWith('/')) return `${BASE_URL}${imagem}`;
+    return `${BASE_URL}/uploads/${imagem}`;
+}
+
 export default function LiveTv() {
     const navigation = useNavigation();
     const [videos, setVideos] = useState([]);
@@ -13,6 +22,7 @@ export default function LiveTv() {
     const [searchInput, setSearchInput] = useState("");
     const [filteredData, setFilteredData] = useState([]);
     const [current, setCurrent] = useState(1);
+    const [favorites, setFavorites] = useState([]);
     const [pageSize] = useState(30);
 
     const fetchVideos = async () => {
@@ -50,17 +60,26 @@ export default function LiveTv() {
         return filteredData.slice((current - 1) * pageSize, current * pageSize);
     }, [filteredData, current, pageSize]);
 
+    const handleFavorite = (video) => {
+        setFavorites((prev) => ({
+            ...prev,
+            [video.id]: !prev[video.id]
+        }));
+    };
+    
     const handleCardPress = (video) => {
         setVideoSelected(video);
     };
-    
+
     const renderVideo = (video) => (
         <VideoItemCard
         titulo={video.title}
-        imagem={video.image}
+        imagem={getImageUrl(video.image)}
         descricao={video.description}
         link={video.link}
         onPress={() => handleCardPress(video)}
+        isFavorite={favorites[video.id]}
+        onPressFavorite={() => handleFavorite(video)}
     />
     );
     const videosByCategory = useMemo(() => {
