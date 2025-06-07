@@ -1,9 +1,26 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import PostImageCarousel from "./PostImageCarousel";
 
 export default function PostCard({ post, API_URL, handleLike, handleUnlike, handleOpenComments, likeLoading }) {
   const navigation = useNavigation();
+
+  // Suporte a múltiplas imagens (jpg, png, etc)
+  let images = [];
+  if (Array.isArray(post.media_urls)) {
+    images = post.media_urls.map(img =>
+      img.startsWith("http")
+        ? img
+        : `${API_URL}/uploads/${img}`
+    );
+  } else if (post.media_url) {
+    images = [
+      post.media_url.startsWith("http")
+        ? post.media_url
+        : `${API_URL}/uploads/${post.media_url}`
+    ];
+  }
 
   return (
     <View style={styles.postCard}>
@@ -26,17 +43,7 @@ export default function PostCard({ post, API_URL, handleLike, handleUnlike, hand
         </View>
       </View>
       <Text style={styles.postTitle}>{post.title}</Text>
-      {post.media_url && (
-        <Image
-          source={
-            post.media_url.startsWith("http")
-              ? { uri: post.media_url }
-              : { uri: `${API_URL}${post.media_url.startsWith("/") ? "" : "/"}${post.media_url}` }
-          }
-          style={styles.postImage}
-          resizeMode="cover"
-        />
-      )}
+      {images.length > 0 && <PostImageCarousel images={images} />}
       <Text style={styles.postContent}>{post.caption || post.content}</Text>
       <View style={styles.postActions}>
         <TouchableOpacity
@@ -67,9 +74,9 @@ const styles = StyleSheet.create({
   postCard: {
     backgroundColor: "#fff",
     borderRadius: 12,
-    padding: 16,
-    marginHorizontal: 16,
-    marginBottom: 14,
+    padding: 12,
+    marginHorizontal: 4, 
+    marginBottom: 8,   
     elevation: 1,
   },
   postTitle: {
@@ -79,8 +86,8 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   postImage: {
-    width: "100%",
-    height: 200,
+    width: 100,
+    height: 100,
     borderRadius: 10,
     marginBottom: 8,
     backgroundColor: "#eee",

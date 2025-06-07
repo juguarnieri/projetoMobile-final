@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 
-export default function NoticiaImageCard({ image, title, buttonText = "Ler notícia", onPress }) {
+export default function NoticiaImageCard({ image, title, buttonText = "Ler notícia", buttonColor, onPress }) {
   return (
     <ImageBackground source={{ uri: image }} style={styles.card} imageStyle={styles.image}>
       <View style={styles.overlay}>
         <Text style={styles.title}>{title}</Text>
-        <TouchableOpacity style={styles.button} onPress={onPress}>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: buttonColor || "#070935" }]}
+          onPress={onPress}
+        >
           <Text style={styles.buttonText}>{buttonText}</Text>
         </TouchableOpacity>
       </View>
@@ -45,7 +48,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
-    backgroundColor: "#1976d2",
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 8,

@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import PostCard from "../components/PostCard";
 import CommentsModal from "../components/CommentsModal";
 import Banner from "../components/Banner";
+import SearchBar from "../components/SearchBar";
 
 const API_URL = "http://localhost:4000";
 const HEADERS = { "x-api-key": "nUN1NOc7BuiiO7iSYR7gek0bxG821Z" };
@@ -56,7 +57,6 @@ export default function Feed() {
 
         setPosts(enrichedPosts);
       } catch {
-        // erro ao carregar feed
       } finally {
         setLoading(false);
       }
@@ -141,29 +141,18 @@ export default function Feed() {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f7f8fa" }}>
          <Banner image={require("../assets/img/banner2.png")} />
       <View style={styles.feedWrapper}>
-        <Text style={styles.title}>Feed de Publicações</Text>
+        <Text style={styles.title}>FIQUE LIGADO</Text>
         <View style={styles.feedHeader}>
-          <View style={styles.feedSearchGroup}>
-            <TextInput
-              style={styles.feedSearchInput}
-              placeholder="Pesquisar publicações, legendas ou usuário..."
-              value={searchInput}
-              onChangeText={setSearchInput}
-              placeholderTextColor="#888"
-            />
-            <TouchableOpacity
-              onPress={() => setSearch(searchInput)}
-              style={styles.feedSearchButton}
-            >
-              <Text style={{ fontSize: 20 }}>🔍</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => { setSearchInput(""); setSearch(""); setCurrent(1); }}
-              style={styles.feedClearButton}
-            >
-              <Text style={{ fontSize: 16 }}>❌</Text>
-            </TouchableOpacity>
-          </View>
+          <SearchBar
+  value={searchInput}
+  onChangeText={setSearchInput}
+  onSearch={() => {
+    setSearch(searchInput);
+    setCurrent(1);
+  }}
+  placeholder="Pesquisar publicações, legendas ou usuário..."
+  style={{ width: '100%', alignSelf: 'stretch' }}
+/>
         </View>
 
         {loading ? (
@@ -228,8 +217,15 @@ export default function Feed() {
 
 const styles = StyleSheet.create({
   feedWrapper: { flex: 1, padding: 16, backgroundColor: "#f7f8fa" },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 16, color: "#000339", alignSelf: "right" },
-  feedHeader: { marginBottom: 12 },
+  title: { fontSize: 18, fontWeight: "bold", color: "#000339", alignSelf: "right" },
+  feedHeader: { 
+  marginBottom: 12, 
+  alignSelf: 'center',
+  width: '110%', 
+  alignItems: 'stretch', 
+  paddingHorizontal: 0,  
+  marginHorizontal: 0,  
+},
   feedSearchGroup: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
   feedSearchInput: {
     flex: 1,

@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { View, Text, TextInput, FlatList, TouchableOpacity, ActivityIndicator, StyleSheet, Image } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import UserCard from "../components/UserCard";
 import Banner from "../components/Banner";
+import SearchBar from "../components/SearchBar";
 
 export default function Account() {
   const navigation = useNavigation();
@@ -62,14 +63,16 @@ export default function Account() {
     <View style={{ flex: 1, backgroundColor: "#f7f8fa" }}>
       <Banner image={require("../assets/img/banner1.png")} />
       <View style={{ flex: 1, padding: 16 }}>
-        <Text style={styles.title}>Usuários</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Buscar por nome ou usuário"
-          value={search}
-          onChangeText={setSearch}
-          placeholderTextColor="#888"
-        />
+        <Text style={styles.title}>USERS</Text>
+        <View style={styles.feedHeader}>
+          <SearchBar
+            value={search}
+            onChangeText={setSearch}
+            onSearch={() => {}} 
+            placeholder="Buscar por nome ou usuário"
+            style={{ width: '100%', alignSelf: 'stretch', minHeight: 48 }}
+          />
+        </View>
         {loading ? (
           <ActivityIndicator size="large" color="#000339" />
         ) : connectionError ? (
@@ -114,7 +117,7 @@ export default function Account() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f7f8fa", padding: 16 },
-  title: { fontSize: 28, fontWeight: "bold", marginBottom: 16, color: "#000339", alignSelf: "right" },
+  title: { fontSize: 18, fontWeight: "bold", color: "#000339", alignSelf: "right" },
   input: {
     borderWidth: 1,
     borderColor: "#d1d5db",
@@ -122,6 +125,7 @@ const styles = StyleSheet.create({
     padding: 12,
     marginBottom: 18,
     backgroundColor: "#fff",
+    elevation: 2,
     fontSize: 16,
     color: "#222",
   },
@@ -132,6 +136,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
+    marginTop: 8,
     shadowColor: "#000",
     shadowOpacity: 0.08,
     shadowRadius: 8,
@@ -144,6 +149,15 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     marginRight: 16,
     backgroundColor: "#e5e7eb",
+  },
+  feedHeader: { 
+    marginBottom: 18,     
+    marginTop: 2,         
+    alignSelf: 'center',
+    width: '110%',       
+    alignItems: 'stretch', 
+    paddingHorizontal: 0, 
+    marginHorizontal: 0,  
   },
   info: {
     flex: 1,

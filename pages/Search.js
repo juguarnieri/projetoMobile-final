@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, FlatList, Linking } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, FlatList, Linking, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Banner from '../components/Banner';
 import NoticiaImageCard from '../components/NoticiaImageCard';
 import VideoCard from '../components/VideoCard';
 import PodcastImageCard from '../components/PodcastImageCard';
+import Feather from 'react-native-vector-icons/Feather';
+import SearchBar from '../components/SearchBar';
 
 const BASE_URL = 'http://localhost:4000';
 
@@ -64,15 +66,13 @@ return (
 
         <Text style={styles.sectionTitle}>EXPLORAR</Text>
 
-        <View style={styles.searchContainer}>
-            <TextInput
-                style={styles.searchInput}
-                placeholder="Pesquisar Notícias..."
-                placeholderTextColor="#888"
-                value={search}
-                onChangeText={setSearch}
-            />
-        </View>
+        <SearchBar
+          value={search}
+          onChangeText={setSearch}
+          onSearch={() => {
+          }}
+          placeholder="Pesquisar Notícias..."
+        />
 
         <Text style={styles.sectionTitle}>NOTÍCIAS EM DESTAQUE</Text>
         <FlatList
@@ -86,6 +86,7 @@ return (
             image={getImageUrl(item.image)}
             title={item.title}
             buttonText="Ler notícia"
+            buttonColor="#070935" 
             onPress={() => navigation.navigate('NoticiaPage', { id: item.id })}
             />
         </View>
@@ -104,6 +105,7 @@ return (
             image={getImageUrl(item.image)}
             title={item.title}
             buttonText="Ler notícia"
+            buttonColor="#070935"
             onPress={() => navigation.navigate('NoticiaPage', { id: item.id })}
         />
         </View>
@@ -124,6 +126,7 @@ return (
                         image={getImageUrl(item.image)}
                         title={item.title}
                         buttonText="Ouvir agora"
+                        buttonColor="#d90429" 
                         onPress={() => {
                             if (item.link) {
                                 Linking.openURL(item.link);
@@ -200,6 +203,8 @@ const styles = StyleSheet.create({
         marginLeft: 16,
     },
     searchContainer: {
+        flexDirection: "row",
+        alignItems: "center",
         backgroundColor: "#ffffff",
         marginHorizontal: 16,
         marginTop: 16,
@@ -210,7 +215,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 4,
     },
+    searchIcon: {
+        marginLeft: 8,
+        marginRight: 4,
+    },
     searchInput: {
+        flex: 1,
         height: 40,
         borderColor: '#ccc',
         borderWidth: 1,
