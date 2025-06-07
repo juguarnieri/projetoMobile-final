@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import PostCard from "../components/PostCard";
 import CommentsModal from "../components/CommentsModal";
 import Banner from "../components/Banner";
+import SearchBar from "../components/SearchBar";
 
 const API_URL = "http://localhost:4000";
 const HEADERS = { "x-api-key": "nUN1NOc7BuiiO7iSYR7gek0bxG821Z" };

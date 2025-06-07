@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Image, Text, StyleSheet, Linking } from 'react-native';
 
 export default function VideoCard({ titulo, imagem, onPress, style }) {
     return (
@@ -31,3 +31,4 @@ const styles = StyleSheet.create({
         padding: 8,
     },
 });
+
