@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 12,
     padding: 12,
-    marginHorizontal: 16,
-    marginBottom: 14,
+    marginHorizontal: 4, 
+    marginBottom: 8,   
     elevation: 1,
   },
   postTitle: {
