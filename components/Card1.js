@@ -35,12 +35,15 @@ const styles = StyleSheet.create({
     },
     title: {
         color: '#fff',
-        fontSize: 30,
-        fontWeight: '700',    
+        fontSize: 25,
+        fontWeight: '700',  
+     
+
     },
     textContainer: {
         position: 'absolute',
-        marginTop: '9.5rem',
-        paddingLeft: 20,
+        bottom: 20,
+        left: 36, 
+
     },
 });

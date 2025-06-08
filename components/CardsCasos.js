@@ -14,15 +14,17 @@ export default function CardCasos({ imageUri, title }) {
 
 const styles = StyleSheet.create({
   card: {
-    width: 200,
-    height: 120,
+    width: 130,          
+    height: 90,        
     overflow: 'hidden',
     elevation: 3,
-    marginHorizontal: 5,
-    marginTop: 10,
+    marginHorizontal: 2, 
+    marginTop: 6,         
+    borderRadius: 10,
+    backgroundColor: "#222",
   },
   image: {
-    width: '100%',
+    width: '100%',       
     height: '100%',
   },
   overlay: {
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     alignItems: 'flex-start',
     paddingLeft: 10,
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   title: {
     color: '#fff',

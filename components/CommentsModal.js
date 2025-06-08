@@ -12,7 +12,7 @@ export default function CommentsModal({ visible, onClose, loading, comments, API
       <View style={styles.modalBg}>
         <View style={styles.modalContent}>
           <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
-            <Text style={{ color: "#fff" }}>Fechar</Text>
+            <Text style={{ color: "#fff" }}>✖</Text>
           </TouchableOpacity>
           <Text style={styles.modalTitle}>Comentários</Text>
           {loading ? (
@@ -38,7 +38,7 @@ renderItem={({ item }) => (
   onPress={() => {
     handleCloseComments();
     setTimeout(() => {
-      navigation.navigate("UserProfile", { id: item.user_id }); // Troque push por navigate
+      navigation.navigate("UserProfile", { id: item.user_id }); 
     }, 300);
   }}
 >
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000339",
     padding: 8,
     borderRadius: 8,
-    alignSelf: "flex-end",
+    alignSelf: "flex-start",
     marginBottom: 8,
   },
   modalTitle: {

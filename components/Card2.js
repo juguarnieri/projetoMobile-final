@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 
     },
     photo: {
-        width: '100%',
+        width: '50%',
         height: 100,
         marginRight: 10,
     },

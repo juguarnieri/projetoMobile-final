@@ -148,29 +148,33 @@ export default function UserProfile() {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f7f8fa" }}>
       <ScrollView style={styles.pageBg} contentContainerStyle={{ flexGrow: 1 }}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Text style={{ color: "#fff", fontWeight: "bold" }}>Voltar</Text>
+          <Text style={{ color: "#fff", fontWeight: "bold" }}>⬅ </Text>
         </TouchableOpacity>
 
         <ProfileHeader user={user} postCount={postCount} styles={styles} API_URL={API_URL} />
 
-        <Text style={styles.sectionTitle}>Publicações</Text>
-        {posts.length === 0 ? (
-          <Text style={styles.empty}>Nenhuma publicação encontrada.</Text>
-        ) : (
-          posts.map((post) => (
-            <PostCard
-              key={post.id}
-              post={post}
-              styles={styles}
-              API_URL={API_URL}
-              handleLike={handleLike}
-              handleUnlike={handleUnlike}
-              handleOpenComments={handleOpenComments}
-              likeLoading={likeLoading}
-            />
-          ))
-        )}
-
+        <Text style={styles.sectionTitle}>POSTS</Text>
+        <View style={styles.divider} />
+        <View style={styles.contentContainer}>
+          {posts.length === 0 ? (
+            <Text style={styles.empty}>Nenhuma publicação encontrada.</Text>
+          ) : (
+            posts.map((post, idx) => (
+              <React.Fragment key={post.id}>
+                <PostCard
+                  post={post}
+                  styles={styles}
+                  API_URL={API_URL}
+                  handleLike={handleLike}
+                  handleUnlike={handleUnlike}
+                  handleOpenComments={handleOpenComments}
+                  likeLoading={likeLoading}
+                />
+                {idx < posts.length - 1 && <View style={styles.divider} />}
+              </React.Fragment>
+            ))
+          )}
+        </View>
         <CommentsModal
           visible={commentsVisible}
           onClose={handleCloseComments}
@@ -208,5 +212,15 @@ const styles = StyleSheet.create({
     color: "#888",
     marginTop: 20,
     marginBottom: 20,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "#d9d9d9",
+    marginVertical: 16,
+    marginHorizontal: 20,
+  },
+  contentContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
   },
 });
