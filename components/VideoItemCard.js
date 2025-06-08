@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TouchableOpacity, Image, Text, StyleSheet, View, Linking, Pressable, Modal } from 'react-native';
+import { TouchableOpacity, Image, Text, StyleSheet, View, Linking, Pressable, Modal, Platform, Alert, Share } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FavoriteBtn from './FavoriteBtn';
@@ -11,6 +11,32 @@ export default function VideoItemCard({ titulo, imagem, descricao, link, onPress
         if (link) {
             Linking.openURL(link);
         }
+    };
+
+    const shareWhatsApp = () => {
+        const message = `${titulo}\n${link || ''}`;
+        const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+        Linking.openURL(url).catch(() =>
+            Alert.alert('Erro', 'Não foi possível abrir o WhatsApp.')
+        );
+    };
+
+    const shareInstagram = () => {
+        const url = Platform.OS === 'ios'
+            ? `instagram://app`
+            : `https://www.instagram.com/`;
+        Linking.openURL(url).catch(() =>
+            Alert.alert('Erro', 'Não foi possível abrir o Instagram.')
+        );
+    };
+
+    const shareNative = async () => {
+        try {
+            await Share.share({
+                message: `${titulo}\n${link || ''}`,
+                title: titulo,
+            });
+        } catch (error) { }
     };
 
     return (
@@ -50,11 +76,32 @@ export default function VideoItemCard({ titulo, imagem, descricao, link, onPress
                     >
                         <Ionicons name="arrow-back" size={25} color="#000788" />
                     </Pressable>
+
+                    <View style={styles.iconRow}>
+                        <Icon name="account-search" size={20} color="#5a5a5a" style={styles.icon} />
+                        <Icon name="police-badge" size={20} color="#ea4335" style={styles.icon} />
+                        <Icon name="fingerprint" size={20} color="#2ecc71" style={styles.icon} />
+                    </View>
+
                     <Image source={{ uri: imagem }} style={styles.cardimage} />
                     <Text style={styles.cardtitle}>{titulo}</Text>
                     <Text style={styles.carddescription}>{descricao}</Text>
                     
                     <FavoriteBtn isFavorite={isFavorite} onPress={onPressFavorite} style={styles.favoriteDetailBtn} />
+
+                    <View style={styles.detailes} />
+
+                    <View style={styles.shareRow}>
+                        <TouchableOpacity style={[styles.shareBtn, styles.shareWhatsapp]} onPress={shareWhatsApp}>
+                            <Icon name="whatsapp" size={17} color="#fff" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.shareBtn, styles.shareInstagram]} onPress={shareInstagram}>
+                            <Icon name="instagram" size={17} color="#fff" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.shareBtn, styles.shareNative]} onPress={shareNative}>
+                            <Icon name="share-variant" size={17} color="#fff" />
+                        </TouchableOpacity>
+                    </View>
                     
                     <Pressable
                         style={styles.button}
@@ -147,6 +194,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 16,
     },
+    detailes: {
+        height: 16,
+    },
     favoriteDetailBtn: {
         alignSelf: "center",
         marginBottom: 16,
@@ -178,5 +228,40 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 5,
+    },
+    iconRow: {
+        flexDirection: 'row',
+        marginBottom: 7,
+        justifyContent: 'center',
+        marginTop: 12,
+    },
+    icon: {
+        marginHorizontal: 5,
+    },
+    shareRow: {
+        flexDirection: 'row',
+        marginBottom: 8,
+        justifyContent: 'center',
+        width: '100%',
+    },
+    shareBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderRadius: 8,
+        marginHorizontal: 4,
+        elevation: 1,
+        minWidth: 36,
+        justifyContent: 'center',
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+    },
+    shareWhatsapp: {
+        backgroundColor: '#25d366',
+    },
+    shareInstagram: {
+        backgroundColor: '#C13584',
+    },
+    shareNative: {
+        backgroundColor: '#444',
     },
 });
