@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import CardNoticia from '../components/CardNoticia';
 import Header from '../components/Header';
+import Banner from '../components/Banner';
+import bannerImage from '../assets/img/dec20.png'; 
 
 const BASE_URL = 'http://localhost:4000';
 
@@ -13,7 +15,7 @@ export default function PaginaDecada2020() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/news?decade=20`, {
+    fetch(`${BASE_URL}/api/news?decade=2020s`, {
       headers: { 'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z' }
     })
       .then(res => res.json())
@@ -36,35 +38,22 @@ export default function PaginaDecada2020() {
   }
 
   return (
-    <ScrollView>
-      <Header 
-        titleWhite='CRIME'
-        titleRed='WHISPERS'
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <Header />
+      <Banner
+        image={bannerImage}
+        title="DÉCADA DE 2020"
       />
 
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <View style={styles.backButtonContent}>
-          <Ionicons name="arrow-back" size={20} color="#000339" />
+          <Ionicons name="arrow-back" size={18} color="#000339" />
           <Text style={styles.backButtonText}>Voltar</Text>
         </View>
       </TouchableOpacity> 
-      
+
       <FlatList
-        ListHeaderComponent={
-          noticias.length > 0 && (
-            <View style={styles.topCard}>
-              <Image
-                source={{ uri: noticias[0]?.image }}
-                style={styles.topImage}
-                resizeMode="cover"
-              />
-              <View style={styles.topOverlay}>
-                <Text style={styles.topDecade}>DÉCADA 2020</Text>
-              </View>
-            </View>
-          )
-        }
-        data={noticias.slice(1)}
+        data={noticias}
         keyExtractor={item => item.id.toString()}
         renderItem={({ item }) => (
           <CardNoticia
@@ -72,24 +61,27 @@ export default function PaginaDecada2020() {
             title={item.title}
             description={item.description}
             id={item.id}
+            onPress={() => navigation.navigate('NoticiaPage', { id: item.id })}
           />
         )}
-        
         ItemSeparatorComponent={() => <View style={styles.line} />}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
-      
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   backButton: {
     marginTop: 20,
     marginLeft: 16,
     marginBottom: 8,
     alignSelf: 'flex-start',
-    backgroundColor: '#f2f2f2',
     borderRadius: 20,
     paddingVertical: 6,
     paddingHorizontal: 14,
@@ -104,31 +96,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginLeft: 6,
-  },
-  topCard: {
-    overflow: 'hidden',
-    position: 'relative', 
-    marginBottom: 10,
-  },
-  topImage: {
-    width: '100%',
-    height: 200,
-  },
-  topOverlay: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    padding: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  topDecade: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: 'bold',
-    letterSpacing: 2
   },
   line: {
     height: 1,

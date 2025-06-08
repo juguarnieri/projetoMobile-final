@@ -27,15 +27,15 @@ export default function TabRoutes() {
         }}
     >
               <Tab.Screen 
-            name="Search"
-            component={Search}
-            options={{
-                tabBarIcon: ({ color, size}) => (
-                    <FontAwesome name="search" size={size} color=
-                    {color} />
-                ),
-            }} 
-        />
+    name="Search"
+    component={Search}
+    options={{
+        tabBarIcon: ({ color, size}) => (
+            <FontAwesome name="search" size={size} color=
+            {color} />
+        ),
+    }} 
+/>
               <Tab.Screen 
             name="Feed" 
             component={LiveTv}

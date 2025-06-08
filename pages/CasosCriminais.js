@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CardCasos from '../components/CardsCasos';
+import { Ionicons } from '@expo/vector-icons'; 
+
 export default function CasosCriminais() {
     const navigation = useNavigation();
     return (
@@ -16,6 +18,16 @@ export default function CasosCriminais() {
                     <Text style={styles.bannerTitle}>CASOS CRIMINAIS</Text>
                 </View>
             </View>
+
+            <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={styles.backButton}
+                activeOpacity={0.8}
+            >
+                <Ionicons name="arrow-back" size={22} color="#000339" />
+                <Text style={styles.backButtonText}>Voltar</Text>
+            </TouchableOpacity>
+
             <ScrollView style={styles.container}>     
                 <View style={styles.cardDecade}>
                     <TouchableOpacity onPress={() => navigation.navigate('PaginaDecada70')}>
@@ -69,7 +81,7 @@ export default function CasosCriminais() {
                 </View>
 
                 <View style={styles.bottomImageContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Feed')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'Search' })}>
                         <Image
                             source={require("../assets/img/teste.png")} 
                             style={styles.bottomImage}
@@ -114,6 +126,25 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         letterSpacing: 1,
     },
+    backButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 16,
+        marginTop: 8,
+        marginBottom: 8,
+        alignSelf: 'flex-start',
+        backgroundColor: '#f2f2f2',
+        borderRadius: 20,
+        paddingVertical: 6,
+        paddingHorizontal: 14,
+        elevation: 2,
+    },
+    backButtonText: {
+        color: '#000339',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginLeft: 6,
+    },
     cardDecade: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
@@ -130,7 +161,7 @@ const styles = StyleSheet.create({
     },
     bottomImageContainer: {
         alignItems: 'center',
-        marginVertical: 32,
+        marginVertical: 10,
     },
     bottomImage: {
         width: 280,

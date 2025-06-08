@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity
 import { useRoute, useNavigation } from '@react-navigation/native';
 import NewsDetailCard from '../components/NewsDetailCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Banner from '../components/Banner';
 
 export default function NoticiaPage() {
   const route = useRoute();
@@ -49,19 +48,14 @@ export default function NoticiaPage() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Banner
-        image={bannerImage}
-        title="NOTÍCIA"
-        // subtitle={noticia.title} // se quiser subtítulo
-      />
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('CasosCriminais')}
+        onPress={() => navigation.goBack()}
         style={styles.backBtn}
         activeOpacity={0.8}
       >
         <View style={styles.backCircle}>
-          <Ionicons name="arrow-back" size={28} color="#fff" />
+          <Ionicons name="arrow-back" size={18} color="#fff" />
         </View>
         <Text style={styles.backText}>Voltar</Text>
       </TouchableOpacity>
@@ -84,13 +78,13 @@ const styles = StyleSheet.create({
   backBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 8,
     marginTop: 8,
     alignSelf: 'flex-start',
   },
   backCircle: {
-    width: 44,
-    height: 44,
+    width: 33,
+    height: 33,
     borderRadius: 22,
     backgroundColor: '#000339',
     justifyContent: 'center',
