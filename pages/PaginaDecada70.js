@@ -72,9 +72,9 @@ export default function PaginaDecada70() {
             title={item.title}
             description={item.description}
             id={item.id}
+            onPress={() => navigation.navigate('NoticiaPage', { id: item.id })} // <-- Adicione esta linha!
           />
         )}
-        
         ItemSeparatorComponent={() => <View style={styles.line} />}
         contentContainerStyle={{ paddingBottom: 20 }}
       />

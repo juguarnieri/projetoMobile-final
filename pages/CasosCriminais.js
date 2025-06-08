@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CardCasos from '../components/CardsCasos';
-
 export default function CasosCriminais() {
     const navigation = useNavigation();
     return (
@@ -70,11 +69,13 @@ export default function CasosCriminais() {
                 </View>
 
                 <View style={styles.bottomImageContainer}>
-                    <Image
-                        source={require("../assets/img/teste.png")} 
-                        style={styles.bottomImage}
-                        resizeMode="cover"
-                    />
+                    <TouchableOpacity onPress={() => navigation.navigate('Feed')}>
+                        <Image
+                            source={require("../assets/img/teste.png")} 
+                            style={styles.bottomImage}
+                            resizeMode="cover"
+                        />
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>

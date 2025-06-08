@@ -4,7 +4,7 @@ import axios from "axios";
 import QuizQuestion from "../components/QuizQuestion";
 import QuizCorrectionCard from "../components/QuizCorrectionCard";
 
-const bannerImage = require("../assets/img/banner3.png");
+const bannerImage = require("../assets/img/quiz.png");
 
 const API_URL = "http://192.168.15.8:4000";
 const HEADERS = { "x-api-key": "nUN1NOc7BuiiO7iSYR7gek0bxG821Z" };
@@ -69,12 +69,6 @@ export default function QuizScreen() {
   if (loading) {
     return (
       <>
-        <View style={styles.bannerContainer}>
-          <Image source={bannerImage} style={styles.banner} resizeMode="cover" />
-          <View style={styles.overlay}>
-            <Text style={styles.bannerTitle}>QUIZ CRIMINAL</Text>
-          </View>
-        </View>
         <View style={styles.center}>
           <ActivityIndicator size="large" color="#e53935" />
           <Text>Carregando quiz...</Text>
@@ -106,13 +100,13 @@ export default function QuizScreen() {
 
   return (
     <>
-      <View style={styles.bannerContainer}>
-        <Image source={bannerImage} style={styles.banner} resizeMode="cover" />
-        <View style={styles.overlay}>
-          <Text style={styles.bannerTitle}>QUIZ CRIMINAL</Text>
-        </View>
-      </View>
       <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.bannerContainer}>
+          <Image source={bannerImage} style={styles.banner} resizeMode="cover" />
+          <View style={styles.overlay}>
+            <Text style={styles.bannerTitle}>QUIZ CRIMINAL</Text>
+          </View>
+        </View>
         {questions.map((q, idx) => (
           <QuizQuestion
             key={q.id}
@@ -269,18 +263,18 @@ title: {
     backgroundColor: "#fbeaea"
   },
   bannerContainer: {
-    width: '200%',           // Deixe 100% para ocupar toda a largura da tela
+    width: '100%',
     height: 150,
     position: 'relative',
-    marginTop: 0,            // Remove qualquer margem de cima
-    marginBottom: 10,
+    marginBottom: 18,
+    borderRadius: 18,
+    overflow: 'hidden', // importante para arredondar a imagem
+    backgroundColor: '#fff',
   },
   banner: {
-    width: '100%',           // Deixe 100% para ocupar toda a largura da tela
+    width: '100%',
     height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 0,
+    borderRadius: 18,
   },
   overlay: {
     position: 'absolute',

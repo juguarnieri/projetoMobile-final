@@ -43,11 +43,15 @@ export function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
     <Modal
       visible={visible}
       transparent
-      animationType="slide"
+      animationType="fade"
       onRequestClose={onClose}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.modalContentCriminal}>
+        <View style={styles.modalContentWhite}>
+          <TouchableOpacity style={[styles.closeBtn, { left: 10, right: undefined }]} onPress={onClose}>
+            <Text style={styles.closeBtnText}>✖</Text>
+          </TouchableOpacity>
+
           <View style={styles.iconRow}>
             <Icon name="account-search" size={20} color="#5a5a5a" style={styles.icon} />
             <Icon name="police-badge" size={20} color="#ea4335" style={styles.icon} />
@@ -59,10 +63,10 @@ export function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
             style={styles.modalImage}
             resizeMode="cover"
           />
-          <Text style={styles.modalTitle}>{podcast.title}</Text>
+          <Text style={styles.modalTitleDark}>{podcast.title}</Text>
 
           {podcast.description && (
-            <Text style={styles.modalDescription}>{podcast.description}</Text>
+            <Text style={styles.modalDescriptionDark}>{podcast.description}</Text>
           )}
 
           <TouchableOpacity
@@ -77,9 +81,9 @@ export function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
             <Icon
               name={podcast.isFavorite ? "heart" : "heart-outline"}
               size={18}
-              color={podcast.isFavorite ? "#ff3333" : "#fff"}
+              color={podcast.isFavorite ? "#ff3333" : "#444"}
             />
-            <Text style={styles.actionTextSmall}>
+            <Text style={styles.actionTextSmallDark}>
               {podcast.isFavorite ? "Remover" : "Favoritar"}
             </Text>
           </TouchableOpacity>
@@ -106,13 +110,6 @@ export function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
               <Text style={styles.listenBtnTextSmall}>Ouvir</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity
-            style={[styles.closeButton, styles.closeButtonSmall]}
-            onPress={onClose}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.closeButtonTextSmall}>Fechar</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -128,7 +125,7 @@ export default function Podcasts() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const API_KEY = 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z';
-  const API_URL = "http://192.168.0.10:4000"; 
+
   useEffect(() => {
     fetchPodcasts();
   }, []);
@@ -204,13 +201,7 @@ export default function Podcasts() {
               contentContainerStyle={styles.podcastList}
               renderItem={({ item }) => (
                 <Card3
-                  imageUri={
-                    item.image
-                      ? item.image.startsWith("http")
-                        ? item.image
-                        : `${API_URL}/uploads/${item.image}`
-                      : item.thumbnail
-                  }
+                  imageUri={item.image || item.thumbnail}
                   title={item.title}
                   isFavorite={item.isFavorite}
                   price={item.price}
@@ -223,7 +214,9 @@ export default function Podcasts() {
                   onPressFavorite={() => {
                     setPodcasts((old) =>
                       old.map((p) =>
-                        p === item ? { ...p, isFavorite: !p.isFavorite } : p
+                        p === item
+                          ? { ...p, isFavorite: !p.isFavorite }
+                          : p
                       )
                     );
                   }}
@@ -363,6 +356,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#00204a", // Azul escuro top
     overflow: "hidden",
   },
+  modalContentWhite: {
+    width: '90%',
+    maxWidth: 350,
+    borderRadius: 12,
+    padding: 18,
+    alignItems: "center",
+    position: "relative",
+    backgroundColor: "#fff",
+    overflow: "hidden",
+    elevation: 4,
+  },
+  closeBtn: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
+    zIndex: 1,
+  },
+  closeBtnText: {
+    fontSize: 18,
+    color: '#444',
+  },
   iconRow: {
     flexDirection: 'row',
     marginBottom: 7,
@@ -378,15 +392,15 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     backgroundColor: "#f2f2f2",
   },
-  modalTitle: {
-    color: "#fff",
+  modalTitleDark: {
+    color: "#000",
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",
     marginBottom: 5,
   },
-  modalDescription: {
-    color: "#f0f0f0",
+  modalDescriptionDark: {
+    color: "#333",
     fontSize: 13,
     marginVertical: 8,
     textAlign: "justify",
@@ -415,6 +429,13 @@ const styles = StyleSheet.create({
   },
   actionTextSmall: {
     color: "#444",
+    marginLeft: 6,
+    fontSize: 13,
+    fontWeight: 'bold',
+    letterSpacing: 0.3
+  },
+  actionTextSmallDark: {
+    color: "#000",
     marginLeft: 6,
     fontSize: 13,
     fontWeight: 'bold',

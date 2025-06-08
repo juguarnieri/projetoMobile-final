@@ -72,14 +72,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#888',
     fontFamily: 'Sanchez',
-    textAlign: 'center',
+    textAlign: 'justify', // <-- justificado
     marginBottom: 12,
   },
   text: {
     fontSize: 16,
     color: '#222',
     fontFamily: 'Sanchez',
-    textAlign: 'center',
+    textAlign: 'justify', // <-- justificado
     marginBottom: 12,
   },
   button: {

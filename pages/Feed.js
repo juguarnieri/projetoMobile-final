@@ -276,7 +276,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 150,
     position: 'relative',
-    marginBottom: 5,
   },
   banner: {
     width: '100%',

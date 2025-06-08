@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import NewsDetailCard from '../components/NewsDetailCard';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Banner from '../components/Banner';
 
 export default function NoticiaPage() {
   const route = useRoute();
+  const navigation = useNavigation();
   const { id } = route.params;
 
   const [noticia, setNoticia] = useState(null);
@@ -46,12 +49,29 @@ export default function NoticiaPage() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <Banner
+        image={bannerImage}
+        title="NOTÍCIA"
+        // subtitle={noticia.title} // se quiser subtítulo
+      />
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate('CasosCriminais')}
+        style={styles.backBtn}
+        activeOpacity={0.8}
+      >
+        <View style={styles.backCircle}>
+          <Ionicons name="arrow-back" size={28} color="#fff" />
+        </View>
+        <Text style={styles.backText}>Voltar</Text>
+      </TouchableOpacity>
+
       <NewsDetailCard
-      title={noticia.title}
-      image={noticia.image}
-      description={noticia.description}
-      text={noticia.text}
-      link={noticia.link}
+        title={noticia.title}
+        image={noticia.image}
+        description={noticia.description}
+        text={noticia.text}
+        link={noticia.link}
       />
     </ScrollView>
   );
@@ -60,6 +80,29 @@ export default function NoticiaPage() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
+  },
+  backBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    marginTop: 8,
+    alignSelf: 'flex-start',
+  },
+  backCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#000339',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+    elevation: 3,
+  },
+  backText: {
+    color: '#000339',
+    fontWeight: 'bold',
+    fontSize: 18,
+    letterSpacing: 0.5,
   },
   error: {
     color: 'red',

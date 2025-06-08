@@ -68,14 +68,14 @@ export default function VideoItemCard({ titulo, imagem, descricao, link, onPress
             onRequestClose={() => setModalVisible(false)}
         >
             <View style={styles.overlay}>
-                <View style={styles.modal}>
-                    <Pressable
-                        style={styles.button01}
+                <View style={styles.modalContentWhite}>
+                    <TouchableOpacity
+                        style={[styles.closeBtn, { left: 10, right: undefined }]}
                         onPress={() => setModalVisible(false)}
                         hitSlop={15}
                     >
-                        <Ionicons name="arrow-back" size={25} color="#000788" />
-                    </Pressable>
+                        <Text style={styles.closeBtnText}>✖</Text>
+                    </TouchableOpacity>
 
                     <View style={styles.iconRow}>
                         <Icon name="account-search" size={20} color="#5a5a5a" style={styles.icon} />
@@ -83,35 +83,51 @@ export default function VideoItemCard({ titulo, imagem, descricao, link, onPress
                         <Icon name="fingerprint" size={20} color="#2ecc71" style={styles.icon} />
                     </View>
 
-                    <Image source={{ uri: imagem }} style={styles.cardimage} />
-                    <Text style={styles.cardtitle}>{titulo}</Text>
-                    <Text style={styles.carddescription}>{descricao}</Text>
+                    <Image source={{ uri: imagem }} style={styles.modalImage} resizeMode="cover" />
+                    <Text style={styles.modalTitleDark}>{titulo}</Text>
+                    <Text style={styles.modalDescriptionDark}>{descricao}</Text>
                     
-                    <FavoriteBtn isFavorite={isFavorite} onPress={onPressFavorite} style={styles.favoriteDetailBtn} />
-
-                    <View style={styles.detailes} />
+                    <TouchableOpacity
+                        style={[
+                            styles.actionBtn,
+                            styles.actionBtnSmall,
+                            isFavorite && styles.favoriteActive
+                        ]}
+                        onPress={onPressFavorite}
+                        activeOpacity={0.85}
+                    >
+                        <Icon
+                            name={isFavorite ? "heart" : "heart-outline"}
+                            size={18}
+                            color={isFavorite ? "#ff3333" : "#444"}
+                        />
+                        <Text style={styles.actionTextSmallDark}>
+                            {isFavorite ? "Remover" : "Favoritar"}
+                        </Text>
+                    </TouchableOpacity>
 
                     <View style={styles.shareRow}>
-                        <TouchableOpacity style={[styles.shareBtn, styles.shareWhatsapp]} onPress={shareWhatsApp}>
+                        <TouchableOpacity style={[styles.shareBtn, styles.shareBtnSmall, styles.shareWhatsapp]} onPress={shareWhatsApp}>
                             <Icon name="whatsapp" size={17} color="#fff" />
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.shareBtn, styles.shareInstagram]} onPress={shareInstagram}>
+                        <TouchableOpacity style={[styles.shareBtn, styles.shareBtnSmall, styles.shareInstagram]} onPress={shareInstagram}>
                             <Icon name="instagram" size={17} color="#fff" />
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.shareBtn, styles.shareNative]} onPress={shareNative}>
+                        <TouchableOpacity style={[styles.shareBtn, styles.shareBtnSmall, styles.shareNative]} onPress={shareNative}>
                             <Icon name="share-variant" size={17} color="#fff" />
                         </TouchableOpacity>
                     </View>
                     
-                    <Pressable
-                        style={styles.button}
-                        onPress={handleOuvir}
-                    >
-                    <View style={styles.buttonModel}>
-                        <Ionicons name="play-circle-outline" size={25} color="#fff" />
-                        <Text style={styles.buttonText}>Ver Vídeo</Text>
-                    </View>
-                    </Pressable>
+                    {link && (
+                        <TouchableOpacity
+                            style={[styles.listenBtn, styles.listenBtnSmall]}
+                            onPress={handleOuvir}
+                            activeOpacity={0.85}
+                        >
+                            <Icon name="play-circle-outline" size={16} color="#fff" />
+                            <Text style={styles.listenBtnTextSmall}>Ver Vídeo</Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
             </View>
         </Modal>
@@ -170,78 +186,75 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    modal: {
-        backgroundColor: '#fff',
-        borderRadius: 16,
-        padding: 20,
+    modalContentWhite: {
         width: '90%',
-        alignItems: 'center',
-        position: 'relative',
-    },
-    cardimage: {
-        width: '100%',
-        height: 180,
+        maxWidth: 350,
         borderRadius: 12,
-        marginBottom: 16,
-        marginTop: 25,
-    },
-    cardtitle: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        color: '#000668',
-        marginBottom: 8,
-        textAlign: 'center',
-        textDecorationLine: 'underline',
-    },
-    carddescription: {
-        fontSize: 15,
-        color: '#444',
-        textAlign: 'center',
-        marginBottom: 16,
-    },
-    detailes: {
-        height: 16,
-    },
-    favoriteDetailBtn: {
-        alignSelf: "center",
-        marginBottom: 16,
-        marginTop: 2,
+        padding: 18,
+        alignItems: "center",
         position: "relative",
+        backgroundColor: "#fff",
+        overflow: "hidden",
+        elevation: 4,
     },
-    button01: {
+    closeBtn: {
         position: 'absolute',
-        top: 12,
-        left: 12,
-        zIndex: 10,
-        backgroundColor: 'transparent',
-        padding: 4,
+        left: 10,
+        top: 10,
+        zIndex: 1,
     },
-    button: {
-        backgroundColor: '#000788',
-        width: '96%',
-        paddingVertical: 12,
-        borderRadius: 8,
-        alignItems: 'center',
-        marginTop: 8,
+    closeBtnText: {
+        fontSize: 18,
+        color: '#444',
     },
-    buttonText: {
-        color: '#fff',
-        fontWeight: 'bold',
+    modalImage: {
+        width: 140,
+        height: 78,
+        borderRadius: 10,
+        marginBottom: 8,
+        backgroundColor: "#f2f2f2",
+    },
+    modalTitleDark: {
+        color: "#000",
+        fontWeight: "bold",
         fontSize: 16,
+        textAlign: "center",
+        marginBottom: 5,
     },
-    buttonModel: {
+    modalDescriptionDark: {
+        color: "#333",
+        fontSize: 13,
+        marginVertical: 8,
+        textAlign: "justify",
+    },
+    actionBtn: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 5,
-    },
-    iconRow: {
-        flexDirection: 'row',
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        paddingVertical: 6,
+        paddingHorizontal: 13,
+        marginTop: 5,
         marginBottom: 7,
-        justifyContent: 'center',
-        marginTop: 12,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        elevation: 1,
     },
-    icon: {
-        marginHorizontal: 5,
+    actionBtnSmall: {
+        paddingVertical: 5,
+        paddingHorizontal: 9,
+        minWidth: 70,
+    },
+    favoriteActive: {
+        backgroundColor: '#ffeaea',
+        borderColor: '#ff3333',
+    },
+    actionTextSmallDark: {
+        color: "#000",
+        marginLeft: 6,
+        fontSize: 13,
+        fontWeight: 'bold',
+        letterSpacing: 0.3
     },
     shareRow: {
         flexDirection: 'row',
@@ -253,10 +266,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderRadius: 8,
-        marginHorizontal: 4,
+        marginHorizontal: 2,
         elevation: 1,
         minWidth: 36,
         justifyContent: 'center',
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+    },
+    shareBtnSmall: {
         paddingVertical: 6,
         paddingHorizontal: 10,
     },
@@ -268,5 +285,35 @@ const styles = StyleSheet.create({
     },
     shareNative: {
         backgroundColor: '#444',
+    },
+    listenBtn: {
+        flexDirection: "row",
+        backgroundColor: "#ea4335",
+        borderRadius: 8,
+        paddingVertical: 7,
+        paddingHorizontal: 18,
+        alignItems: "center",
+        marginTop: 3,
+        marginBottom: 5,
+        elevation: 1,
+    },
+    listenBtnSmall: {
+        paddingVertical: 7,
+        paddingHorizontal: 18,
+        minWidth: 70,
+    },
+    listenBtnTextSmall: {
+        color: "#fff",
+        fontWeight: "bold",
+        fontSize: 13,
+        marginLeft: 5,
+    },
+    iconRow: {
+        flexDirection: 'row',
+        marginBottom: 7,
+        justifyContent: 'center',
+    },
+    icon: {
+        marginHorizontal: 5,
     },
 });
