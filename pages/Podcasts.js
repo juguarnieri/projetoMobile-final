@@ -6,6 +6,7 @@ import {
 import Card3 from '../components/Card3';
 import bannerImage from '../assets/img/podcast.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SearchBar from '../components/SearchBar';
 import axios from 'axios';
 
 
@@ -127,7 +128,7 @@ export default function Podcasts() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const API_KEY = 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z';
-
+  const API_URL = "http://192.168.0.10:4000"; 
   useEffect(() => {
     fetchPodcasts();
   }, []);
@@ -177,29 +178,12 @@ export default function Podcasts() {
         </View>
       </View>
 
-      <View style={styles.liveSearchWrapper}>
-        <View style={styles.liveSearchGroup}>
-          <TextInput
-            style={styles.liveSearchInput}
-            placeholder="Buscar Podcasts..."
-            value={searchInput}
-            onChangeText={setSearchInput}
-            placeholderTextColor="#888"
-          />
-        </View>
-        <TouchableOpacity
-          onPress={() => setSearch(searchInput)}
-          style={styles.liveSearchIconBtn}
-        >
-          <Icon name="magnify" size={23} color="#ea4335" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => { setSearchInput(""); setSearch(""); }}
-          style={styles.liveSearchIconBtn}
-        >
-          <Icon name="close" size={22} color="#ea4335" />
-        </TouchableOpacity>
-      </View>
+      <SearchBar
+        value={searchInput}
+        onChangeText={setSearchInput}
+        onSearch={() => setSearch(searchInput)}
+        placeholder="Buscar Podcasts..."
+      />
 
       {categorias.every((cat) => filteredPodcasts(cat).length === 0) && (
         <Text style={styles.emptyMessage}>Nenhum podcast encontrado.</Text>
@@ -220,7 +204,13 @@ export default function Podcasts() {
               contentContainerStyle={styles.podcastList}
               renderItem={({ item }) => (
                 <Card3
-                  imageUri={item.image || item.thumbnail}
+                  imageUri={
+                    item.image
+                      ? item.image.startsWith("http")
+                        ? item.image
+                        : `${API_URL}/uploads/${item.image}`
+                      : item.thumbnail
+                  }
                   title={item.title}
                   isFavorite={item.isFavorite}
                   price={item.price}
@@ -233,9 +223,7 @@ export default function Podcasts() {
                   onPressFavorite={() => {
                     setPodcasts((old) =>
                       old.map((p) =>
-                        p === item
-                          ? { ...p, isFavorite: !p.isFavorite }
-                          : p
+                        p === item ? { ...p, isFavorite: !p.isFavorite } : p
                       )
                     );
                   }}

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView, Alert, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView, Alert, StyleSheet, Image } from "react-native";
 import axios from "axios";
 import QuizQuestion from "../components/QuizQuestion";
 import QuizCorrectionCard from "../components/QuizCorrectionCard";
+
+const bannerImage = require("../assets/img/banner3.png");
 
 const API_URL = "http://192.168.15.8:4000";
 const HEADERS = { "x-api-key": "nUN1NOc7BuiiO7iSYR7gek0bxG821Z" };
@@ -66,10 +68,18 @@ export default function QuizScreen() {
 
   if (loading) {
     return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#e53935" />
-        <Text>Carregando quiz...</Text>
-      </View>
+      <>
+        <View style={styles.bannerContainer}>
+          <Image source={bannerImage} style={styles.banner} resizeMode="cover" />
+          <View style={styles.overlay}>
+            <Text style={styles.bannerTitle}>QUIZ CRIMINAL</Text>
+          </View>
+        </View>
+        <View style={styles.center}>
+          <ActivityIndicator size="large" color="#e53935" />
+          <Text>Carregando quiz...</Text>
+        </View>
+      </>
     );
   }
 
@@ -95,27 +105,34 @@ export default function QuizScreen() {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>QUIZ CRIMINAL</Text>
-      {questions.map((q, idx) => (
-        <QuizQuestion
-          key={q.id}
-          question={q}
-          idx={idx}
-          selected={answers[q.id]}
-          onSelect={handleSelect}
-          submitting={submitting}
-          styles={styles}
-        />
-      ))}
-      <TouchableOpacity
-        style={[styles.button, submitting && { opacity: 0.7 }]}
-        onPress={handleSubmit}
-        disabled={submitting}
-      >
-        <Text style={styles.buttonText}>{submitting ? "Enviando..." : "Enviar Respostas"}</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <>
+      <View style={styles.bannerContainer}>
+        <Image source={bannerImage} style={styles.banner} resizeMode="cover" />
+        <View style={styles.overlay}>
+          <Text style={styles.bannerTitle}>QUIZ CRIMINAL</Text>
+        </View>
+      </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        {questions.map((q, idx) => (
+          <QuizQuestion
+            key={q.id}
+            question={q}
+            idx={idx}
+            selected={answers[q.id]}
+            onSelect={handleSelect}
+            submitting={submitting}
+            styles={styles}
+          />
+        ))}
+        <TouchableOpacity
+          style={[styles.button, submitting && { opacity: 0.7 }]}
+          onPress={handleSubmit}
+          disabled={submitting}
+        >
+          <Text style={styles.buttonText}>{submitting ? "Enviando..." : "Enviar Respostas"}</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </>
   );
 }
 
@@ -250,5 +267,35 @@ title: {
     borderLeftWidth: 6,
     borderLeftColor: "#ef4444",
     backgroundColor: "#fbeaea"
-  }
+  },
+  bannerContainer: {
+    width: '200%',           // Deixe 100% para ocupar toda a largura da tela
+    height: 150,
+    position: 'relative',
+    marginTop: 0,            // Remove qualquer margem de cima
+    marginBottom: 10,
+  },
+  banner: {
+    width: '100%',           // Deixe 100% para ocupar toda a largura da tela
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 0,
+  },
+  overlay: {
+    position: 'absolute',
+    left: 10,
+    bottom: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 5,
+  },
+  bannerTitle: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
 });

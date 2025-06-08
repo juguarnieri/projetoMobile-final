@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, FlatList, Linking, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Banner from '../components/Banner';
 import NoticiaImageCard from '../components/NoticiaImageCard';
@@ -7,6 +7,7 @@ import VideoCard from '../components/VideoCard';
 import PodcastImageCard from '../components/PodcastImageCard';
 import Feather from 'react-native-vector-icons/Feather';
 import SearchBar from '../components/SearchBar';
+import bannerImage from '../assets/img/banner3.png';
 
 const BASE_URL = 'http://localhost:4000';
 
@@ -48,7 +49,7 @@ export default function Search() {
             headers: { 'x-api-key': 'nUN1NOc7BuiiO7iSYR7gek0bxG821Z' }
         })
         .then(res => res.json())
-        .then(data => setPodcasts(data.data || data || []))
+        .then((data) => setPodcasts(data.data || data || []))
         .finally(() => setLoadingPodcasts(false));
 
         fetch(`${BASE_URL}/api/videos/featured`, {
@@ -62,131 +63,136 @@ export default function Search() {
     
 return (
     <ScrollView style={styles.container}>
-        <Banner image={require("../assets/img/banner3.png")} />
+      <View style={styles.bannerContainer}>
+        <Image source={bannerImage} style={styles.banner} resizeMode="cover" />
+        <View style={styles.overlay}>
+          <Text style={styles.bannerTitle}>
+            {search ? 'RESULTADOS DA BUSCA' : 'EXPLORAR'}
+          </Text>
+        </View>
+      </View>
 
-        <Text style={styles.sectionTitle}>EXPLORAR</Text>
+      <SearchBar
+        value={search}
+        onChangeText={setSearch}
+        onSearch={() => {
+        }}
+        placeholder="Pesquisar Notícias..."
+      />
 
-        <SearchBar
-          value={search}
-          onChangeText={setSearch}
-          onSearch={() => {
+      <Text style={styles.sectionTitle}>NOTÍCIAS EM DESTAQUE</Text>
+      <FlatList
+          data={filtrarItens(noticias, search).filter((_, idx) => idx % 2 === 1)}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+      <View style={{ width: 250, margin: 8 }}>
+          <NoticiaImageCard
+          image={getImageUrl(item.image)}
+          title={item.title}
+          buttonText="Ler notícia"
+          buttonColor="#070935" 
+          onPress={() => navigation.navigate('NoticiaPage', { id: item.id })}
+          />
+      </View>
+      
+      )}
+          contentContainerStyle={{ paddingHorizontal: 8 }}
+      />
+      <FlatList
+          data={filtrarItens(noticias, search).filter((_, idx) => idx % 2 === 0)}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+      <View style={{ width: 250, margin: 8 }}>
+          <NoticiaImageCard
+          image={getImageUrl(item.image)}
+          title={item.title}
+          buttonText="Ler notícia"
+          buttonColor="#070935"
+          onPress={() => navigation.navigate('NoticiaPage', { id: item.id })}
+      />
+      </View>
+      )}
+          contentContainerStyle={{ paddingHorizontal: 8 }}
+      />
+
+      <Text style={styles.sectionTitle}>PODCASTS MAIS OUVIDOS</Text>
+
+      <FlatList
+          data={filtrarItens(podcasts, search).filter((_, idx) => idx % 2 === 0)}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+          <View style={{ width: 250, margin: 8 }}>
+              <PodcastImageCard
+                  image={getImageUrl(item.image)}
+                  title={item.title}
+                  buttonText="Ouvir agora"
+                  buttonColor="#d90429" 
+                  onPress={() => {
+                      if (item.link) {
+                          Linking.openURL(item.link);
+                  } else {
+                      alert(`Ver podcast: ${item.title}`);
+                  }
+              }}
+          />
+          </View>
+          )}
+          contentContainerStyle={{ paddingHorizontal: 8 }}
+      />
+
+      <FlatList
+          data={filtrarItens(podcasts, search).filter((_, idx) => idx % 2 === 1)}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+          <View style={{ width: 250, margin: 8 }}>
+              <PodcastImageCard
+                  image={getImageUrl(item.image)}
+                  title={item.title}
+                  buttonText="Ouvir agora"
+                  onPress={() => {
+                      if (item.link) {
+                          Linking.openURL(item.link);
+                  } else {
+                      alert(`Ver Podcast: ${item.title}`);
+                  }
+              }}
+          />
+          </View>
+          )}
+          contentContainerStyle={{ paddingHorizontal: 8 }}
+      />
+
+      <Text style={styles.sectionTitle}>VÍDEOS EM ALTA</Text>
+      <FlatList
+          data={filtrarItens(videos, search).slice(0, 10)}
+          numColumns={2}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+              <View style={{ flex: 1, margin: 8 }}>
+                  <VideoCard
+                      titulo={item.title}
+                      imagem={getImageUrl(item.image)}
+                      onPress={() => {
+              if (item.link) {
+                  Linking.openURL(item.link);
+              }
           }}
-          placeholder="Pesquisar Notícias..."
-        />
+                  />
+              </View>
+          )}
+          contentContainerStyle={{ paddingHorizontal: 8 }}
+      />
 
-        <Text style={styles.sectionTitle}>NOTÍCIAS EM DESTAQUE</Text>
-        <FlatList
-            data={filtrarItens(noticias, search).filter((_, idx) => idx % 2 === 1)}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({ item }) => (
-        <View style={{ width: 250, margin: 8 }}>
-            <NoticiaImageCard
-            image={getImageUrl(item.image)}
-            title={item.title}
-            buttonText="Ler notícia"
-            buttonColor="#070935" 
-            onPress={() => navigation.navigate('NoticiaPage', { id: item.id })}
-            />
-        </View>
-        
-        )}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
-        />
-        <FlatList
-            data={filtrarItens(noticias, search).filter((_, idx) => idx % 2 === 0)}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({ item }) => (
-        <View style={{ width: 250, margin: 8 }}>
-            <NoticiaImageCard
-            image={getImageUrl(item.image)}
-            title={item.title}
-            buttonText="Ler notícia"
-            buttonColor="#070935"
-            onPress={() => navigation.navigate('NoticiaPage', { id: item.id })}
-        />
-        </View>
-        )}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
-        />
-
-        <Text style={styles.sectionTitle}>PODCASTS MAIS OUVIDOS</Text>
-
-        <FlatList
-            data={filtrarItens(podcasts, search).filter((_, idx) => idx % 2 === 0)}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({ item }) => (
-                <View style={{ width: 250, margin: 8 }}>
-                    <PodcastImageCard
-                        image={getImageUrl(item.image)}
-                        title={item.title}
-                        buttonText="Ouvir agora"
-                        buttonColor="#d90429" 
-                        onPress={() => {
-                            if (item.link) {
-                                Linking.openURL(item.link);
-                            } else {
-                                alert(`Ver podcast: ${item.title}`);
-                            }
-                        }}
-                    />
-                </View>
-            )}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
-        />
-
-        <FlatList
-            data={filtrarItens(podcasts, search).filter((_, idx) => idx % 2 === 1)}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({ item }) => (
-                <View style={{ width: 250, margin: 8 }}>
-                    <PodcastImageCard
-                        image={getImageUrl(item.image)}
-                        title={item.title}
-                        buttonText="Ouvir agora"
-                        onPress={() => {
-                            if (item.link) {
-                                Linking.openURL(item.link);
-                            } else {
-                                alert(`Ver Podcast: ${item.title}`);
-                            }
-                        }}
-                    />
-                </View>
-            )}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
-        />
-
-        <Text style={styles.sectionTitle}>VÍDEOS EM ALTA</Text>
-        <FlatList
-            data={filtrarItens(videos, search).slice(0, 10)}
-            numColumns={2}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({ item }) => (
-                <View style={{ flex: 1, margin: 8 }}>
-                    <VideoCard
-                        titulo={item.title}
-                        imagem={getImageUrl(item.image)}
-                        onPress={() => {
-                    if (item.link) {
-                        Linking.openURL(item.link);
-                    }
-                }}
-                    />
-                </View>
-            )}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
-        />
-
-        </ScrollView>
-    );
+      </ScrollView>
+  );
 }
 
 
@@ -228,5 +234,32 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         color: '#333',
         backgroundColor: '#f9f9f9',
+    },
+    bannerContainer: {
+        width: '100%',
+        height: 150,
+        position: 'relative',
+        marginBottom: 10,
+    },
+    banner: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 0,
+    },
+    overlay: {
+        position: 'absolute',
+        left: 10,
+        bottom: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 5,
+    },
+    bannerTitle: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        letterSpacing: 1,
     },
 });

@@ -1,10 +1,19 @@
 import React from 'react';
 import { TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
 
+const API_URL = "http://192.168.0.10:4000"; // IP do seu PC
+
 export default function PodcastCard({ titulo, imagem, onPress, style }) {
     return (
         <TouchableOpacity style={[styles.card, style]} onPress={onPress}>
-            <Image source={{ uri: imagem }} style={styles.image} />
+            <Image
+                source={{
+                    uri: imagem.startsWith("http")
+                        ? imagem
+                        : `${API_URL}/uploads/${imagem}`
+                }}
+                style={styles.image}
+            />
             <Text style={styles.title} numberOfLines={2}>{titulo}</Text>
         </TouchableOpacity>
     );

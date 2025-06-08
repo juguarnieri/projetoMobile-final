@@ -14,11 +14,7 @@ export default function VideosSection({ videos, renderVideo }) {
     <FlatList
       data={videos}
       keyExtractor={(item) => item.id?.toString() || Math.random().toString()}
-      renderItem={({ item }) => (
-        <View style={styles.card}>
-          {renderVideo(item)}
-        </View>
-      )}
+      renderItem={({ item }) => renderVideo(item)}
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.carrousel}
@@ -31,14 +27,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 8,
   },
-  card: {
-    backgroundColor: '#fff',
-    marginBottom: 12,
-    borderRadius: 8,
-    padding: 10,
-    alignItems: 'center',
-    elevation: 2,
-  },
+
   thumbnail: {
     width: 320,
     height: 180,
@@ -52,7 +41,6 @@ const styles = StyleSheet.create({
   },
   emptyContainer: {
     alignItems: 'center',
-    marginTop: 20,
   },
   emptyText: {
     color: '#888',

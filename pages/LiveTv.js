@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import VideosSection from "../components/VideosSection";
 import VideoItemCard from "../components/VideoItemCard";
 import Banner from "../components/Banner";
+import SearchBar from '../components/SearchBar';
 
 const BASE_URL = 'http://localhost:4000';
 
@@ -96,40 +97,28 @@ export default function LiveTv() {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.bannerContainer}>
+                <Banner image={require("../assets/img/bannerlivetv.png")} styles={styles.banner} />
+                <View style={styles.overlay}>
+                    <Text style={styles.sectionTitle}>VÍDEOS</Text>
+                </View>
+            </View>
 
-            <Banner image={require("../assets/img/bannerlivetv.png")} styles={styles.banner} />
-            <View style={styles.overlay}>
-            <Text style={styles.sectionTitle}>VÍDEOS</Text>
-            </View>
-            </View>
-            <View style={styles.liveSearchGroup}>
-                <TextInput
-                    style={styles.liveSearchInput}
-                    placeholder="Buscar Videos..."
-                    value={searchInput}
-                    onChangeText={setSearchInput}
-                    placeholderTextColor="#888"
-                />
-                <TouchableOpacity
-                    onPress={() => setSearch(searchInput)}
-                    style={styles.liveSearchButton}
-                >
-                    <Text style={{ fontSize: 20 }}>🔍</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => { setSearchInput(""); setSearch(""); setCurrent(1); }}
-                    style={styles.searchClearButton}
-                >
-                    <Text style={{ fontSize: 16 }}>❌</Text>
-                </TouchableOpacity>
-            </View>
+            <SearchBar
+                value={searchInput}
+                onChangeText={setSearchInput}
+                onSearch={() => setSearch(searchInput)}
+                placeholder="Pesquisar Vídeos..."
+            />
+
             {Object.entries(videosByCategory).map(([category, videos]) => (
-                <View key={category} style>
+                <View key={category}>
                     <Text style={styles.CardTitle}>{category}</Text>
                     <VideosSection
                         videos={videos}
                         loading={loading}
                         renderVideo={renderVideo}
+                        contentContainerStyle={{ paddingHorizontal: 4, paddingVertical: 4 }}
+                        ItemSeparatorComponent={() => <View style={{ height: 4 }} />}
                     />
                 </View>
             ))}
@@ -159,7 +148,7 @@ const styles = StyleSheet.create({
         bottom: 10,
         backgroundColor: "rgba(0, 0, 0, 0.4)",
         paddingHorizontal: 12,
-        paddingVertical: 6,
+        paddingVertical: 4,
         borderRadius: 5,
     },
     sectionTitle: {
@@ -207,8 +196,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         color: "#000339",
-        marginTop: 20,
+        marginTop: 8,    
+        marginBottom: 0,   
         marginLeft: 16,
         textTransform: "uppercase",
+    },
+    card: {
+        marginBottom: 2,
+        marginRight: 2, 
     },
 });
