@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { View, Text, TextInput, FlatList, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, TextInput, FlatList, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import PostCard from "../components/PostCard";
 import CommentsModal from "../components/CommentsModal";
 import Banner from "../components/Banner";
 import SearchBar from "../components/SearchBar";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const API_URL = "http://localhost:4000";
 const HEADERS = { "x-api-key": "nUN1NOc7BuiiO7iSYR7gek0bxG821Z" };
@@ -139,9 +140,17 @@ export default function Feed() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f7f8fa" }}>
-         <Banner image={require("../assets/img/banner2.png")} />
+      <View style={styles.bannerContainer}>
+        <Image
+          source={require("../assets/img/banner2.png")}
+          style={styles.banner}
+          resizeMode="cover"
+        />
+        <View style={styles.overlay}>
+          <Text style={styles.bannerTitle}>FIQUE LIGADO</Text>
+        </View>
+      </View>
       <View style={styles.feedWrapper}>
-        <Text style={styles.title}>FIQUE LIGADO</Text>
         <View style={styles.feedHeader}>
           <SearchBar
   value={searchInput}
@@ -184,11 +193,8 @@ export default function Feed() {
             disabled={current === 1}
             style={[styles.pageBtn, current === 1 && styles.disabledBtn]}
           >
-            <Text style={styles.pageBtnText}>Anterior</Text>
+            <Ionicons name="chevron-back" size={16} color="#fff" />
           </TouchableOpacity>
-          <Text style={styles.pageInfo}>
-            Página {current} de {Math.max(1, Math.ceil(filteredData.length / pageSize))}
-          </Text>
           <TouchableOpacity
             onPress={() => setCurrent((c) => c + 1)}
             disabled={current >= Math.ceil(filteredData.length / pageSize)}
@@ -197,7 +203,7 @@ export default function Feed() {
               current >= Math.ceil(filteredData.length / pageSize) && styles.disabledBtn,
             ]}
           >
-            <Text style={styles.pageBtnText}>Próxima</Text>
+            <Ionicons name="chevron-forward" size={16} color="#fff" />
           </TouchableOpacity>
         </View>
 
@@ -257,13 +263,40 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   pageBtn: {
-    paddingVertical: 8,
-    paddingHorizontal: 18,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
     backgroundColor: "#000339",
     borderRadius: 8,
-    marginHorizontal: 8,
+    marginHorizontal: 4,
   },
   disabledBtn: { backgroundColor: "#ccc" },
   pageBtnText: { color: "#fff", fontWeight: "bold" },
   pageInfo: { fontSize: 16, color: "#222" },
+  bannerContainer: {
+    width: '100%',
+    height: 150,
+    position: 'relative',
+    marginBottom: 5,
+  },
+  banner: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 0,
+  },
+  overlay: {
+    position: 'absolute',
+    left: 10,
+    bottom: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 5,
+  },
+  bannerTitle: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
 });
