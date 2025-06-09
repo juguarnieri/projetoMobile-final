@@ -195,7 +195,7 @@ title: {
     backgroundColor: "#f1f1f1"
   },
   selectedAlternative: {
-    backgroundColor: "#fa5252",
+    backgroundColor: "#f77e7e",
     borderColor: "#d90429"
   },
   altText: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
 
-const API_URL = "http://192.168.0.10:4000"; // IP do seu PC
+const API_URL = "http://localhost:4000"; 
 
 export default function PodcastCard({ titulo, imagem, onPress, style }) {
     return (
