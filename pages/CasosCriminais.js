@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 export default function CasosCriminais() {
     const navigation = useNavigation();
     return (
-        <View>
+        <ScrollView>
             <View style={styles.bannerContainer}>
                 <Image
                     source={require("../assets/img/banner3.png")}
@@ -90,7 +90,7 @@ export default function CasosCriminais() {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-        </View>
+        </ScrollView>
     );
 }
 
