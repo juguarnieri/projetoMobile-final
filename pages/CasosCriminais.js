@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     bottomImage: {
-        width: 280,
+        width: 300,
         height: 160,
         borderRadius: 16,
     },

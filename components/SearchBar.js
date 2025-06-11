@@ -1,56 +1,48 @@
 import React from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import Feather from "react-native-vector-icons/Feather";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function SearchBar({ value, onChangeText, onSearch, placeholder }) {
   return (
-    <View style={styles.searchContainer}>
+    <View style={styles.container}>
+      <Ionicons name="search" size={22} color="#888" style={styles.searchIcon} />
       <TextInput
-        style={styles.searchInput}
-        placeholder={placeholder || "Pesquisar..."}
-        placeholderTextColor="#888"
+        style={styles.input}
         value={value}
         onChangeText={onChangeText}
+        placeholder={placeholder}
+        returnKeyType="search"
         onSubmitEditing={onSearch}
       />
-      <TouchableOpacity onPress={onSearch}>
-        <Feather
-          name="search"
-          size={20}
-          color="#888"
-          style={styles.searchIcon}
-        />
-      </TouchableOpacity>
+      {value.length > 0 && (
+        <TouchableOpacity onPress={() => onChangeText("")} style={styles.clearButton}>
+          <Ionicons name="close-circle" size={22} color="#d90429" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  searchContainer: {
+  container: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#ffffff",
-    marginHorizontal: 16,
-    marginTop: 16,
-    borderRadius: 10,
-    padding: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    margin: 12,
+    elevation: 2,
   },
   searchIcon: {
-    marginLeft: 8,
-    marginRight: 4,
+    marginRight: 8,
   },
-  searchInput: {
+  input: {
     flex: 1,
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    color: '#333',
-    backgroundColor: '#f9f9f9',
+    fontSize: 16,
+    paddingVertical: 10,
+    color: "#222",
+  },
+  clearButton: {
+    marginLeft: 4,
   },
 });

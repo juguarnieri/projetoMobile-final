@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
   centered: { flex: 1, justifyContent: "center", alignItems: "center" },
   backButton: {
     backgroundColor: "#000339",
+    top: 30,
     padding: 10,
     borderRadius: 8,
     alignSelf: "flex-start",

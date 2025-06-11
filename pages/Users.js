@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, StyleSheet, Image } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, StyleSheet, Image, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import UserCard from "../components/UserCard";
 import SearchBar from "../components/SearchBar";
@@ -60,7 +60,7 @@ export default function Account() {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#f7f8fa" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#f7f8fa" }}>
       <View style={styles.bannerContainer}>
         <Image
           source={require("../assets/img/banner1.png")}
@@ -118,7 +118,7 @@ export default function Account() {
           </>
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

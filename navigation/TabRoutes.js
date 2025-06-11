@@ -19,9 +19,9 @@ export default function TabRoutes() {
             tabBarStyle: {
                 backgroundColor: '#000339',
                 borderTopWidth: 0.5,
-                paddingBottom: 10,
+                paddingBottom: 40,
                 paddingTop: 10,
-                height: 70,
+                height: 100,
             },
             headerShown: false,
         }}

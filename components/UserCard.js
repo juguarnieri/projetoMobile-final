@@ -11,7 +11,7 @@ export default function UserCard({ item, onPress }) {
       <Image
         source={
           item.profile_picture
-            ? { uri: `http://localhost:4000/uploads/${item.profile_picture}` }
+            ? { uri: `http://192.168.15.6:4000/uploads/${item.profile_picture}` }
             : require("../assets/img/user-placeholder.png")
         }
         style={styles.avatar}
