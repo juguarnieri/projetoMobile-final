@@ -132,7 +132,7 @@ export default function Podcasts() {
 
   const fetchPodcasts = async () => {
     try {
-      const response = await axios.get('http://192.168.15.6:4000/api/podcasts', {
+      const response = await axios.get('http://localhost:4000/api/podcasts', {
         headers: { 'x-api-key': API_KEY },
       });
       setPodcasts(response.data.data);

@@ -2,8 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-// Altere aqui para o IP do seu backend
-const BASE_URL = "http://192.168.15.6:4000";
+const BASE_URL = "http://localhost:4000";
 
 export default function Card3({
   imageUri,
@@ -15,7 +14,6 @@ export default function Card3({
   onPressFavorite,
   cardStyle,
 }) {
-  // Monta a URL completa se necessário
 const getImageUrl = (uri) => {
   if (!uri) return require("../assets/img/podcast-placeholder.png");
   if (uri.startsWith("http")) return { uri };
