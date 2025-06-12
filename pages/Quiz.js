@@ -6,7 +6,7 @@ import QuizCorrectionCard from "../components/QuizCorrectionCard";
 
 const bannerImage = require("../assets/img/quiz.png");
 
-const API_URL = "http://localhost:4000";
+const API_URL = "http://192.168.15.6:4000";
 const HEADERS = { "x-api-key": "nUN1NOc7BuiiO7iSYR7gek0bxG821Z" };
 
 export default function QuizScreen() {

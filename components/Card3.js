@@ -2,6 +2,9 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+// Altere aqui para o IP do seu backend
+const BASE_URL = "http://192.168.15.6:4000";
+
 export default function Card3({
   imageUri,
   title,
@@ -12,6 +15,13 @@ export default function Card3({
   onPressFavorite,
   cardStyle,
 }) {
+  // Monta a URL completa se necessário
+const getImageUrl = (uri) => {
+  if (!uri) return require("../assets/img/podcast-placeholder.png");
+  if (uri.startsWith("http")) return { uri };
+  if (uri.startsWith("/uploads/")) return { uri: `${BASE_URL}${uri}` };
+  return { uri: `${BASE_URL}/uploads/${uri}` };
+};
   return (
     <TouchableOpacity style={[styles.card, cardStyle]} activeOpacity={0.9} onPress={onPress}>
       <TouchableOpacity onPress={onPressFavorite} style={styles.favoriteBtn}>
@@ -21,7 +31,10 @@ export default function Card3({
           color={isFavorite ? "#ff3333" : "#bbb"}
         />
       </TouchableOpacity>
-      <Image source={{ uri: imageUri }} style={styles.image} />
+      <Image
+        source={getImageUrl(imageUri)}
+        style={styles.image}
+      />
       <Text style={styles.title} numberOfLines={2}>{title}</Text>
       <View style={styles.infoRow}>
         {free ? (

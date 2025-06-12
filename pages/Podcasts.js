@@ -59,7 +59,7 @@ export function Podcast({ visible, onClose, podcast, onToggleFavorite }) {
           </View>
 
           <Image
-            source={{ uri: podcast.image || podcast.thumbnail }}
+            source={getImageUrl(podcast.image || podcast.thumbnail)}
             style={styles.modalImage}
             resizeMode="cover"
           />
@@ -132,7 +132,7 @@ export default function Podcasts() {
 
   const fetchPodcasts = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/podcasts', {
+      const response = await axios.get('http://192.168.15.6:4000/api/podcasts', {
         headers: { 'x-api-key': API_KEY },
       });
       setPodcasts(response.data.data);
@@ -244,6 +244,14 @@ export default function Podcasts() {
       />
     </ScrollView>
   );
+}
+
+const BASE_URL = "http://192.168.15.6:4000"; // use seu IP
+
+function getImageUrl(img) {
+  if (!img) return require("../assets/img/podcast-placeholder.png");
+  if (img.startsWith("http")) return { uri: img };
+  return { uri: `${BASE_URL}/uploads/${img}` };
 }
 
 const styles = StyleSheet.create({
